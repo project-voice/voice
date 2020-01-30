@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:voice/components/VedioAction.dart';
+import 'package:voice/components/video/VideoAction.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:voice/mock/videoData.dart';
+
+const String RECOMMEND_INDEX = '推荐';
+const String FOLLOW_INDEX = '关注';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  num count = 0;
+  num count = vedioDatasMock.length;
   num current = 0;
   List<Map> vedioDatas;
+  String selectedTab = RECOMMEND_INDEX;
 
-  // TODO: 请求数据
+  /// TODO: 请求数据
   @override
   void initState() {
     super.initState();
     this.vedioDatas = vedioDatasMock;
-    setState(() {
-      count = vedioDatas.length;
-    });
   }
 
   /// 当Swiper元素滚动的时候触发。
   void indexChangeHandler(int index) {
     setState(() {
       current = index;
+    });
+  }
+
+  void updateTabBarSelected(String indexTab) {
+    print(indexTab);
+    setState(() {
+      selectedTab = indexTab;
     });
   }
 
@@ -49,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     : Swiper(
                         scrollDirection: Axis.vertical,
                         itemBuilder: (BuildContext context, int index) {
-                          return VedioAction(
+                          return VideoAction(
                             vedioData: vedioDatas[current],
                           );
                         },
@@ -67,25 +75,37 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(right: 20),
-                        child: Text(
-                          '推荐',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
+                          margin: EdgeInsets.only(right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              updateTabBarSelected(RECOMMEND_INDEX);
+                            },
+                            child: Text(
+                              RECOMMEND_INDEX,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: selectedTab == RECOMMEND_INDEX
+                                    ? Colors.white
+                                    : Colors.white70,
+                              ),
+                            ),
+                          )),
                       Container(
-                          child: Text(
-                        '关注',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ))
+                          child: GestureDetector(
+                              onTap: () {
+                                updateTabBarSelected(FOLLOW_INDEX);
+                              },
+                              child: Text(
+                                FOLLOW_INDEX,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedTab == FOLLOW_INDEX
+                                      ? Colors.white
+                                      : Colors.white70,
+                                ),
+                              )))
                     ]),
               ))
         ]));

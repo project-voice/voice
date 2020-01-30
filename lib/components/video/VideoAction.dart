@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
-import 'package:voice/common/fonts/icons.dart';
+// import 'package:voice/common/fonts/icons.dart';
+import 'package:voice/components/video/VideoSideBarInfo.dart';
 
-class VedioAction extends StatefulWidget {
+class VideoAction extends StatefulWidget {
   final vedioData;
-  VedioAction({Key key, this.vedioData}) : super(key: key);
-  _VedioActionState createState() => _VedioActionState();
+  VideoAction({Key key, this.vedioData}) : super(key: key);
+  _VideoActionState createState() => _VideoActionState();
 }
 
-class _VedioActionState extends State<VedioAction> {
+class _VideoActionState extends State<VideoAction> {
   VideoPlayerController videoController;
   ChewieController chewieController;
   @override
   void initState() {
     super.initState();
+    initVideo();
+  }
+
+  /// 初始化Video
+  void initVideo() {
+    if (videoController != null && chewieController != null) {
+      videoController = null;
+      chewieController = null;
+    }
     videoController = VideoPlayerController.network(widget.vedioData['url']);
     chewieController = ChewieController(
       videoPlayerController: videoController,
@@ -67,50 +77,7 @@ class _VedioActionState extends State<VedioAction> {
                       Text(widget.vedioData['description'],
                           style: TextStyle(fontSize: 14, color: Colors.white))
                     ]))),
-        Positioned(
-            top: screenHeight / 2 + 50,
-            right: 0,
-            child: Container(
-                width: 80,
-                height: screenHeight / 2,
-                padding: EdgeInsets.only(right: 16),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      ClipOval(
-                          child: Image.network(
-                        widget.vedioData['imgUrl'],
-                        width: 50,
-                      )),
-                      Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(right: 5),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                CustomIcons.heart,
-                                color: widget.vedioData['isAction']
-                                    ? Colors.red
-                                    : Colors.white,
-                                size: 40,
-                              ),
-                              Text(widget.vedioData['count'].toString(),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white,
-                                  ))
-                            ],
-                          )),
-                      Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.share,
-                            color: Colors.white,
-                            size: 40,
-                          ))
-                    ])))
+        VideoSideBarInfo(vedioInfoData: widget.vedioData)
       ],
     );
   }
