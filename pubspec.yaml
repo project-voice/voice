@@ -29,7 +29,9 @@ dependencies:
   video_player: ^0.10.5+2
   flutter_swiper: ^1.1.6
   share: ^0.6.3+5
-
+  cached_network_image: ^2.0.0
+  flutter_easyrefresh: ^2.0.9
+  easy_dialog: ^1.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

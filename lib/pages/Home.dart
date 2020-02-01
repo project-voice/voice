@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:voice/components/video/VideoAction.dart';
+import 'package:voice/components/Video/VideoAction.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:voice/mock/videoData.dart';
@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   /// TODO: 请求数据
   @override
   void initState() {
+    print('Home');
     super.initState();
     this.vedioDatas = vedioDatasMock;
   }
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
                     ? Container()
                     : Swiper(
                         scrollDirection: Axis.vertical,
+                        loop: false,
                         itemBuilder: (BuildContext context, int index) {
                           return VideoAction(
                             vedioData: vedioDatas[current],

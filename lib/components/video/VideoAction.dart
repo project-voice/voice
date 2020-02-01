@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
 import 'package:video_player/video_player.dart';
-// import 'package:voice/common/fonts/icons.dart';
 import 'package:voice/components/video/VideoSideBarInfo.dart';
 
 class VideoAction extends StatefulWidget {
@@ -32,7 +31,10 @@ class _VideoActionState extends State<VideoAction> {
       autoPlay: true, //是否自动播放
       looping: true, //是否循环播放
       showControls: false, //控制底部控制条是否显示
-      placeholder: Container(color: Colors.grey[200]), //占位图
+      placeholder: Container(
+          child: Center(
+              child: Text('正在加载...',
+                  style: TextStyle(fontSize: 20, color: Colors.white)))), //占位图
     );
   }
 
