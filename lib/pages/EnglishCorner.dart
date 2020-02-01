@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:voice/components/EnglishCorner/EnglishCornerContent.dart';
+import 'package:voice/mock/EnglishCorner.dart';
 
 class EnglishCorner extends StatefulWidget {
   _EnglishCornerState createState() => _EnglishCornerState();
@@ -8,7 +9,7 @@ class EnglishCorner extends StatefulWidget {
 class _EnglishCornerState extends State<EnglishCorner>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List tabs = ['全部', '每日一语', '上班摸鱼', '开心一下', '一图胜千言', '今天学到了', '画个知识点'];
+  List tabs = englishCorner['topicTitle'];
   @override
   void initState() {
     super.initState();
@@ -59,7 +60,10 @@ class _EnglishCornerState extends State<EnglishCorner>
     return TabBarView(
       controller: _tabController,
       children: tabs.map((tab) {
-        return EnglishCornerContent();
+        num index = tabs.indexOf(tab);
+        List topicContent = englishCorner['topicContent'];
+        print(topicContent[index]);
+        return EnglishCornerContent(topicContent: topicContent[index]);
       }).toList(),
     );
   }

@@ -34,7 +34,7 @@ class _VideoActionState extends State<VideoAction> {
       placeholder: Container(
           child: Center(
               child: Text('正在加载...',
-                  style: TextStyle(fontSize: 20, color: Colors.white)))), //占位图
+                  style: TextStyle(fontSize: 14, color: Colors.grey)))), //占位图
     );
   }
 

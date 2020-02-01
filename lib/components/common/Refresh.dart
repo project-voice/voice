@@ -31,7 +31,7 @@ class _RefreshState extends State<Refresh> {
   @override
   Widget build(BuildContext context) {
     return EasyRefresh(
-      firstRefresh: true,
+      // firstRefresh: true,
       controller: _easyRefreshController,
       enableControlFinishLoad: true,
       enableControlFinishRefresh: true,
