@@ -1,5 +1,6 @@
-List<Map> vedioDatasMock = [
+List<Map> vediosData = [
   {
+    'id': 1,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -14,6 +15,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 2,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -28,6 +30,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 3,
     'url': 'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
     'imgUrl':
         'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
@@ -41,6 +44,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 4,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -55,6 +59,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 5,
     'url': 'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
     'imgUrl':
         'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
@@ -68,6 +73,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 6,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -82,6 +88,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 7,
     'url': 'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
     'imgUrl':
         'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
@@ -95,6 +102,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 8,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -109,6 +117,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 9,
     'url': 'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
     'imgUrl':
         'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
@@ -122,6 +131,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 10,
     'url':
         'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4',
     'imgUrl':
@@ -136,6 +146,7 @@ List<Map> vedioDatasMock = [
     'share': 456,
   },
   {
+    'id': 11,
     'url': 'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4',
     'imgUrl':
         'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',

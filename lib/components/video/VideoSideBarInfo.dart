@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
-import 'package:share/share.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share/share.dart';
+import 'dart:math' as math;
+
+import 'package:voice/store/action/action.dart';
 
 class VideoSideBarInfo extends StatelessWidget {
   final vedioInfoData;
@@ -40,21 +43,27 @@ class VideoSideBarInfo extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(
-                          onTap: () {
-                            if (support['action']) {
-                              print('已赞');
-                              return;
-                            }
-                            // TODO：调点赞接口
-                            print('点赞');
-                          },
-                          child: Icon(
-                            Icons.favorite,
-                            color:
-                                support['action'] ? Colors.red : Colors.white,
-                            size: 40,
-                          )),
+                      StoreConnector(converter: (store) {
+                        return (data) => store.dispatch(createActionHandler(
+                            ActionTypes.VideoSupport, data));
+                      }, builder: (context, actionSupport) {
+                        return GestureDetector(
+                            onTap: () {
+                              if (support['action']) {
+                                print('已赞');
+                                return;
+                              }
+                              // TODO：调点赞接口
+                              actionSupport(vedioInfoData['id']);
+                              print('点赞');
+                            },
+                            child: Icon(
+                              Icons.favorite,
+                              color:
+                                  support['action'] ? Colors.red : Colors.white,
+                              size: 40,
+                            ));
+                      }),
                       Text(support['count'].toString(),
                           style: TextStyle(
                             fontSize: 12,
@@ -67,20 +76,26 @@ class VideoSideBarInfo extends StatelessWidget {
                   padding: EdgeInsets.only(right: 5),
                   child: Column(
                     children: <Widget>[
-                      GestureDetector(
-                          onTap: () {
-                            print('分享');
-                            Share.share(vedioInfoData['description'],
-                                subject: vedioInfoData['description']);
-                          },
-                          child: Transform(
-                              transform: Matrix4.identity()..rotateY(math.pi),
-                              origin: Offset(20, 0),
-                              child: Icon(
-                                Icons.reply,
-                                color: Colors.white,
-                                size: 40,
-                              ))),
+                      StoreConnector(converter: (store) {
+                        return (data) => store.dispatch(
+                            createActionHandler(ActionTypes.VideoShare, data));
+                      }, builder: (context, actionShare) {
+                        return GestureDetector(
+                            onTap: () {
+                              print('分享');
+                              Share.share(vedioInfoData['description'],
+                                  subject: vedioInfoData['description']);
+                              actionShare(vedioInfoData['id']);
+                            },
+                            child: Transform(
+                                transform: Matrix4.identity()..rotateY(math.pi),
+                                origin: Offset(20, 0),
+                                child: Icon(
+                                  Icons.reply,
+                                  color: Colors.white,
+                                  size: 40,
+                                )));
+                      }),
                       Text(vedioInfoData['share'].toString(),
                           style: TextStyle(
                             fontSize: 12,

@@ -1,7 +1,14 @@
 enum ActionTypes {
   Increment,
+  UpdateHomeSelectedTab,
+  VideoSupport,
+  VideoShare,
+  EnglishCornerLoad,
+  EnglishCornerRefresh,
+  EnglishCornerSupport,
+  EnglishCornerComment,
 }
 
-Map<String, dynamic> createActionHandler(ActionTypes type, dynamic data) {
+Map<String, dynamic> createActionHandler(dynamic type, dynamic data) {
   return {'type': type, 'data': data};
 }

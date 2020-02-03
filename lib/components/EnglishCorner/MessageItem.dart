@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:math' as math;
 
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:voice/store/action/action.dart';
+
 class MessageItem extends StatefulWidget {
   final Map content;
-  MessageItem({Key key, this.content}) : super(key: key);
+  final TabController controller;
+  MessageItem({Key key, this.content, this.controller}) : super(key: key);
   _MessageItemState createState() => _MessageItemState();
 }
 
 class _MessageItemState extends State<MessageItem> {
-  void topicHandler() {
-    print('点击主题');
-  }
-
-  void commentHandler() {
-    print('点击评论');
-  }
-
-  void supportHandler() {
-    print('点赞');
+  Function topicHandler(List topics) {
+    num index = topics.indexOf(widget.content['topic']);
+    return () {
+      widget.controller.index = index;
+    };
   }
 
   @override
@@ -74,10 +73,15 @@ class _MessageItemState extends State<MessageItem> {
                 decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: GestureDetector(
-                    onTap: topicHandler,
-                    child: Text('#' + widget.content['topic'],
-                        style: TextStyle(fontSize: 12, color: Colors.orange)))),
+                child: StoreConnector(converter: (store) {
+                  return store.state['englishCorner']['topicTitle'];
+                }, builder: (context, topics) {
+                  return GestureDetector(
+                      onTap: topicHandler(topics),
+                      child: Text('#' + widget.content['topic'],
+                          style:
+                              TextStyle(fontSize: 12, color: Colors.orange)));
+                })),
             Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Row(
@@ -88,14 +92,23 @@ class _MessageItemState extends State<MessageItem> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        GestureDetector(
-                          onTap: commentHandler,
-                          child: Icon(
-                            Icons.chat,
-                            size: 20,
-                            color: Colors.grey[400],
-                          ),
-                        ),
+                        StoreConnector(converter: (store) {
+                          return [
+                            store.state['englishCorner'],
+                            (data) => store.dispatch(createActionHandler(
+                                ActionTypes.EnglishCornerComment, data))
+                          ];
+                        }, builder: (context, useState) {
+                          Map englishCorner = useState[0];
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.chat,
+                              size: 20,
+                              color: Colors.grey[400],
+                            ),
+                          );
+                        }),
                         Container(
                             margin: EdgeInsets.only(left: 2),
                             child: Text(
@@ -110,7 +123,7 @@ class _MessageItemState extends State<MessageItem> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         GestureDetector(
-                          onTap: supportHandler,
+                          onTap: () {},
                           child: Icon(
                             Icons.thumb_up,
                             size: 20,
