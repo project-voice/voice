@@ -12,6 +12,7 @@ class PersonalInfo extends StatelessWidget {
         onTap: () {
           if (isLogin) {
             //跳转到个人主页
+            Navigator.of(context).pushNamed('personalPage');
           } else {
             // 跳转到登录页面
             Navigator.of(context).pushNamed('login');
@@ -28,16 +29,19 @@ class PersonalInfo extends StatelessWidget {
                 Expanded(
                     flex: 1,
                     child: ClipOval(
-                        child: CachedNetworkImage(
-                      width: 50,
-                      height: 50,
-                      imageUrl: isLogin
-                          ? personalData['imageUrl']
-                          : 'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ))),
+                        child: isLogin
+                            ? CachedNetworkImage(
+                                width: 50,
+                                height: 50,
+                                imageUrl:
+                                    'https://kim.cckim.cn/static/5eab5dad86f8b7169ddec9e0af2218a5/47c2b/title.png',
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              )
+                            : Image.asset('assets/images/personHander.jpeg',
+                                width: 50, height: 50))),
                 Expanded(
                     flex: 5,
                     child: Container(

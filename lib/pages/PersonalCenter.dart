@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:voice/components/PersonalCenter/PersonalInfo.dart';
-import 'package:voice/routes/personalCenter.dart';
+import 'package:voice/constants/index.dart';
 
 class PersonalCenter extends StatefulWidget {
   _PersonalCenterState createState() => _PersonalCenterState();
