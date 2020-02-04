@@ -28,15 +28,13 @@ class VideoSideBarInfo extends StatelessWidget {
                     print('跳转到个人主页');
                   },
                   child: ClipOval(
-                    child: CachedNetworkImage(
-                      width: 50,
-                      height: 50,
-                      imageUrl: vedioInfoData['imgUrl'],
-                      placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                  )),
+                      child: CachedNetworkImage(
+                    width: 50,
+                    height: 50,
+                    imageUrl: vedioInfoData['imgUrl'],
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ))),
               Container(
                   margin: EdgeInsets.only(top: 20),
                   padding: EdgeInsets.only(right: 5),
