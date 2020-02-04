@@ -7,6 +7,9 @@ enum ActionTypes {
   EnglishCornerRefresh,
   EnglishCornerSupport,
   EnglishCornerComment,
+
+  // 登录
+  Login
 }
 
 Map<String, dynamic> createActionHandler(dynamic type, dynamic data) {
