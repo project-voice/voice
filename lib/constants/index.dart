@@ -5,24 +5,24 @@ List personalCenterPagesRoute = [
     'icon': Icons.lightbulb_outline,
     'iconColor': Colors.blue,
     'title': '系统消息',
-    'page': ''
+    'page': '',
   },
   {
     'icon': Icons.thumb_up,
     'iconColor': Colors.green,
     'title': '我赞过的',
-    'page': ''
+    'page': '',
   },
   {
     'icon': Icons.question_answer,
     'iconColor': Colors.grey,
     'title': '意见反馈',
-    'page': ''
+    'page': '',
   },
   {
-    'icon': Icons.lightbulb_outline,
-    'iconColor': Colors.blue,
+    'icon': Icons.settings,
+    'iconColor': Colors.grey,
     'title': '设置',
-    'page': ''
+    'page': '',
   }
 ];

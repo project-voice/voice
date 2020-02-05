@@ -7,9 +7,25 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  GlobalKey _formKey = GlobalKey<FormState>();
+  TextEditingController _usernameController;
+  TextEditingController _passwordController;
+  GlobalKey _formKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+    _formKey = GlobalKey<FormState>();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     num screenWidth = MediaQuery.of(context).size.width;

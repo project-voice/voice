@@ -5,6 +5,7 @@ import 'package:voice/pages/Login/ForgetPassword.dart';
 import 'package:voice/pages/Login/Register.dart';
 
 Map routes = <String, WidgetBuilder>{
+  // 首页
   '/': (context) => IndexPage(title: 'Flutter Demo'),
   // 登录、注册、密码找回
   'login': (context) => Login(),
