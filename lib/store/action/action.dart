@@ -9,7 +9,8 @@ enum ActionTypes {
   EnglishCornerComment,
 
   // 登录
-  Login
+  Login,
+  ForgetPassword,
 }
 
 Map<String, dynamic> createActionHandler(dynamic type, dynamic data) {

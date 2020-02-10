@@ -32,6 +32,9 @@ dependencies:
   cached_network_image: ^2.0.0
   flutter_easyrefresh: ^2.0.9
   easy_dialog: ^1.0.5
+  dio: ^3.0.8
+  toast: ^0.1.5
+  bot_toast: ^2.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
