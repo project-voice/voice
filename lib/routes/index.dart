@@ -4,6 +4,8 @@ import 'package:voice/pages/Login/Login.dart';
 import 'package:voice/pages/Login/EmailCheck.dart';
 import 'package:voice/pages/Login/Register.dart';
 import 'package:voice/pages/Login/NewPassword.dart';
+import 'package:voice/components/Release/ReleaseTopic.dart';
+import 'package:voice/components/Release/ReleaseVideo.dart';
 
 Map routes = <String, WidgetBuilder>{
   // 首页
@@ -13,4 +15,7 @@ Map routes = <String, WidgetBuilder>{
   'emailCheck': (context) => EmailCheck(),
   'register': (context) => Register(),
   'newPassword': (context) => NewPassword(),
+  // 发布主题、视频
+  'releaseTopic': (context) => ReleaseTopic(),
+  'releaseVideo': (context) => ReleaseVideo(),
 };

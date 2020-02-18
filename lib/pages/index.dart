@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:voice/routes/bottomBar.dart';
-import 'dart:math' as math;
+import 'package:cached_network_image/cached_network_image.dart';
 
 class IndexPage extends StatefulWidget {
   final String title;
@@ -12,17 +12,57 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
   num _selectedKey = 0;
-  num _rotate = 0.0;
+  List releaseList = [
+    {
+      'text': '发布视频',
+      'iconUrl': 'assets/images/release-video.jpg',
+      'page': 'releaseVideo'
+    },
+    {
+      'text': '发布主题',
+      'iconUrl': 'assets/images/release-topic.png',
+      'page': 'releaseTopic'
+    },
+  ];
   void releaseTipicHandler() {
-    print('发布视频或图片');
-    // 动画
-    setState(() {
-      if (this._rotate == 0.0) {
-        this._rotate = math.pi / 4;
-      } else {
-        this._rotate = 0.0;
-      }
-    });
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          List<Widget> releaseWidgets = releaseList.map((release) {
+            return Column(
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(release['page']);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          boxShadow: [
+                            BoxShadow(color: Colors.grey[400], blurRadius: 4.0)
+                          ]),
+                      child: ClipOval(
+                          child: Image.asset(release['iconUrl'],
+                              width: 50, height: 50)),
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Text(release['text'],
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 15,
+                        )))
+              ],
+            );
+          }).toList();
+          return Container(
+              height: 130,
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: releaseWidgets));
+        });
   }
 
   @override
@@ -52,13 +92,10 @@ class _IndexPageState extends State<IndexPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: tabBarList)),
         floatingActionButton: FloatingActionButton(
-          child: Transform.rotate(
-            angle: this._rotate,
-            child: Icon(
-              Icons.add,
-              size: 30,
-              color: Colors.white,
-            ),
+          child: Icon(
+            Icons.add,
+            size: 30,
+            color: Colors.white,
           ),
           onPressed: releaseTipicHandler,
         ),

@@ -40,7 +40,7 @@ class PersonalInfo extends StatelessWidget {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                               )
-                            : Image.asset('assets/images/personHander.jpeg',
+                            : Image.asset('assets/images/person-head.jpeg',
                                 width: 50, height: 50))),
                 Expanded(
                     flex: 5,
