@@ -1,117 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:voice/components/Video/VideoAction.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:voice/store/action/action.dart';
-
-const String RECOMMEND_INDEX = '推荐';
-const String FOLLOW_INDEX = '关注';
+import 'package:provider/provider.dart';
+import 'package:voice/api/Video.dart';
+import 'package:voice/components/Video/VideoAction.dart';
+import 'package:voice/model/UserModel.dart';
+import 'package:voice/model/VideoModel.dart';
+import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/VideoProvider.dart';
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  String selectedTab = RECOMMEND_INDEX;
-
-  /// TODO: 请求数据
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  final tabList = ['推荐', '关注'];
   @override
   void initState() {
     super.initState();
+    _tabController = new TabController(length: 2, vsync: this);
+    fetchRequest();
   }
 
-  /// 当Swiper元素滚动的时候触发。
-  void indexChangeHandler(int index) {}
+  Future<void> fetchRequest() async {
+    try {
+      UserModel userModel =
+          Provider.of<UserProvider>(context, listen: false).userInfo;
+      VideoProvider videoProvider =
+          Provider.of<VideoProvider>(context, listen: false);
+      var result = await getVideoListAll(
+        userid: userModel.userid,
+        // userid: 6,
+        count: 10,
+      );
+      videoProvider.initVideoList(result['data']);
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController?.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var screenHeight = MediaQuery.of(context).size.height;
-    var screenWidth = MediaQuery.of(context).size.width;
-    return ConstrainedBox(
-        constraints: BoxConstraints.expand(),
-        child: Stack(fit: StackFit.expand, children: <Widget>[
-          Positioned(
-              left: 0,
-              right: 0,
-              child: StoreConnector(
-                converter: (store) {
-                  return store.state['vediosData'];
-                },
-                builder: (context, vediosData) {
-                  num count = vediosData.length;
-                  return Container(
-                    width: screenWidth,
-                    height: screenHeight,
-                    color: Colors.black,
-                    child: count == 0
-                        ? Container()
-                        : Swiper(
-                            scrollDirection: Axis.vertical,
-                            loop: false,
-                            itemBuilder: (BuildContext context, int index) {
-                              return VideoAction(
-                                vedioData: vediosData[index],
-                              );
-                            },
-                            itemCount: count,
-                            onIndexChanged: indexChangeHandler,
-                          ),
-                  );
-                },
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        flexibleSpace: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                  child: SizedBox(
+                width: 20,
               )),
-          Positioned(
-              top: 30,
-              left: 0,
-              child: Container(
-                  height: 50,
-                  width: screenWidth,
-                  child: StoreConnector(converter: (store) {
-                    return store;
-                  }, builder: (context, store) {
-                    String selectedTab = store.state['homeSelectedTab'];
-                    Function updateTabSelectedDispatch = store.dispatch;
-                    return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                              margin: EdgeInsets.only(right: 20),
-                              child: GestureDetector(
-                                onTap: () {
-                                  updateTabSelectedDispatch(createActionHandler(
-                                      ActionTypes.UpdateHomeSelectedTab,
-                                      RECOMMEND_INDEX));
-                                },
-                                child: Text(
-                                  RECOMMEND_INDEX,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: selectedTab == RECOMMEND_INDEX
-                                        ? Colors.white
-                                        : Colors.white70,
-                                  ),
-                                ),
-                              )),
-                          Container(
-                              child: GestureDetector(
-                                  onTap: () {
-                                    updateTabSelectedDispatch(
-                                        createActionHandler(
-                                            ActionTypes.UpdateHomeSelectedTab,
-                                            FOLLOW_INDEX));
-                                  },
-                                  child: Text(
-                                    FOLLOW_INDEX,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: selectedTab == FOLLOW_INDEX
-                                          ? Colors.white
-                                          : Colors.white70,
-                                    ),
-                                  )))
-                        ]);
-                  })))
-        ]));
+              Container(
+                  width: 200,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TabBar(
+                    controller: _tabController,
+                    tabs: tabList
+                        .map((tab) => Text(tab,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            )))
+                        .toList(),
+                  ))
+            ],
+          ),
+        ),
+      ),
+      body: Consumer<VideoProvider>(
+        builder: (context, videoData, child) {
+          List<VideoModel> followList = videoData.followList;
+          List<VideoModel> recommendList = videoData.recommendList;
+          bool isRequest = false;
+          if (followList.length != 0 || recommendList.length != 0) {
+            isRequest = true;
+          }
+          return isRequest
+              ? tabBarViewWidget([recommendList, followList])
+              : Container(
+                  color: Colors.black,
+                  child: Center(child: Text('正在加载')),
+                );
+        },
+      ),
+    );
+  }
+
+  Widget tabBarViewWidget(List<List<VideoModel>> videoModelList) {
+    List<Widget> swiperWidgets = videoModelList.map((videoModels) {
+      num count = videoModels.length;
+      int idx = videoModelList.indexOf(videoModels);
+      String type = idx == 0 ? 'recommend' : 'follow';
+      return count == 0
+          ? Container(
+              color: Colors.black,
+              child: Center(
+                child: Text(
+                  '您还未关注任何人',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ))
+          : Swiper(
+              loop: false,
+              outer: false,
+              itemCount: count,
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return ConstrainedBox(
+                  constraints: BoxConstraints.expand(),
+                  child: Container(
+                      color: Colors.black,
+                      child: VideoAction(
+                          vedioData: videoModels[index],
+                          type: type,
+                          index: index)),
+                );
+              },
+            );
+    }).toList();
+    return TabBarView(
+      controller: _tabController,
+      children: swiperWidgets,
+    );
   }
 }

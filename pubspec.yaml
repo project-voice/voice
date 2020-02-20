@@ -39,6 +39,9 @@ dependencies:
   image_picker: ^0.6.3+1
   flutter_image_compress: ^0.6.5+1
   photo: ^0.4.8
+  loading: ^1.0.2
+  provider: ^4.0.4
+  shared_preferences: ^0.5.6+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
