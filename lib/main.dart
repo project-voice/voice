@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:voice/provider/CommentProvider.dart';
 import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserModel.dart';
 import 'package:voice/provider/VideoProvider.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 void main() {
   return runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider<CommentProvider>(create: (_) => CommentProvider()),
       ChangeNotifierProvider<TopicProvider>(create: (_) => TopicProvider()),
       ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
       ChangeNotifierProvider<VideoProvider>(create: (_) => VideoProvider())

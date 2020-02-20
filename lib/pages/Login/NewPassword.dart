@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:voice/store/action/action.dart';
 
 class NewPassword extends StatefulWidget {
   _NewPasswordState createState() => _NewPasswordState();
@@ -76,11 +74,7 @@ class _NewPasswordState extends State<NewPassword> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                          child: StoreConnector(converter: (store) {
-                        return (data) => store.dispatch(createActionHandler(
-                            ActionTypes.ForgetPassword, data));
-                      }, builder: (context, dispatch) {
-                        return RaisedButton(
+                        child: RaisedButton(
                           padding: EdgeInsets.all(16.0),
                           child: Text("更新密码",
                               style: TextStyle(
@@ -97,8 +91,8 @@ class _NewPasswordState extends State<NewPassword> {
                               // dispatch();
                             }
                           },
-                        );
-                      })),
+                        ),
+                      ),
                     ],
                   ),
                 )

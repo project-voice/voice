@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:voice/store/action/action.dart';
 
 class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
@@ -110,12 +108,7 @@ class _LoginState extends State<Login> {
                           child: Row(
                             children: <Widget>[
                               Expanded(
-                                  child: StoreConnector(converter: (store) {
-                                return (data) => store.dispatch(
-                                    createActionHandler(
-                                        ActionTypes.Login, data));
-                              }, builder: (context, loginDispatch) {
-                                return RaisedButton(
+                                child: RaisedButton(
                                   padding: EdgeInsets.all(15.0),
                                   child: Text("登录"),
                                   color: Theme.of(context).primaryColor,
@@ -129,8 +122,8 @@ class _LoginState extends State<Login> {
                                       // loginDispatch();
                                     }
                                   },
-                                );
-                              })),
+                                ),
+                              ),
                             ],
                           ),
                         )
@@ -150,12 +143,17 @@ class _LoginState extends State<Login> {
                             child: Text('注册',
                                 style: TextStyle(color: Colors.orange))),
                         GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('emailCheck',
-                                  arguments: 'forgetPassword');
-                            },
-                            child: Text('找回密码',
-                                style: TextStyle(color: Colors.red)))
+                          onTap: () {
+                            Navigator.of(context).pushNamed('emailCheck',
+                                arguments: 'forgetPassword');
+                          },
+                          child: Text(
+                            '找回密码',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
                       ],
                     ))
               ],

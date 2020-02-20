@@ -47,11 +47,12 @@ class VideoSideBarInfo extends StatelessWidget {
           Provider.of<UserProvider>(context, listen: false).userInfo;
       VideoProvider videoProvider =
           Provider.of<VideoProvider>(context, listen: false);
-      if (1 == 0) {
+      if (userModel.userid == 0) {
         // 跳转到登录
         Navigator.of(context).pushNamed('login');
       } else {
-        var result = await actionSupport(userid: 5, videoid: videoid);
+        var result =
+            await actionSupport(userid: userModel.userid, videoid: videoid);
         if (result['noerr'] == 0) {
           videoProvider.updateSupport(type, index, result['data']);
         } else {

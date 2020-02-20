@@ -92,13 +92,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.8"
-  easy_dialog:
-    dependency: "direct main"
-    description:
-      name: easy_dialog
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -146,13 +139,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.5"
-  flutter_redux:
-    dependency: "direct main"
-    description:
-      name: flutter_redux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.6.0"
   flutter_swiper:
     dependency: "direct main"
     description:
@@ -296,13 +282,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.5"
-  redux:
-    dependency: "direct main"
-    description:
-      name: redux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.0"
   screen:
     dependency: transitive
     description:
