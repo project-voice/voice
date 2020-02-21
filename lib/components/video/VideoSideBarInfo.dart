@@ -43,14 +43,16 @@ class VideoSideBarInfo extends StatelessWidget {
 
   Function supportHandler(BuildContext context, int videoid) {
     return () async {
-      UserModel userModel =
-          Provider.of<UserProvider>(context, listen: false).userInfo;
-      VideoProvider videoProvider =
-          Provider.of<VideoProvider>(context, listen: false);
-      if (userModel.userid == 0) {
-        // 跳转到登录
-        Navigator.of(context).pushNamed('login');
-      } else {
+      try {
+        UserModel userModel =
+            Provider.of<UserProvider>(context, listen: false).userInfo;
+        VideoProvider videoProvider =
+            Provider.of<VideoProvider>(context, listen: false);
+        if (userModel.userid == 0) {
+          // 跳转到登录
+          Navigator.of(context).pushNamed('login');
+          return;
+        }
         var result =
             await actionSupport(userid: userModel.userid, videoid: videoid);
         if (result['noerr'] == 0) {
@@ -58,21 +60,27 @@ class VideoSideBarInfo extends StatelessWidget {
         } else {
           print(result['message']);
         }
+      } catch (err) {
+        print(err);
       }
     };
   }
 
   Function shareHandler(BuildContext context, int videoid) {
     return () async {
-      Share.share(videoInfoData.videoDescription,
-          subject: videoInfoData.videoDescription);
-      VideoProvider videoProvider =
-          Provider.of<VideoProvider>(context, listen: false);
-      var result = await actionShare(videoid: videoid);
-      if (result['noerr'] == 0) {
-        videoProvider.updateShare(type, index, videoInfoData.videoShare + 1);
-      } else {
-        print(result['message']);
+      try {
+        Share.share(videoInfoData.videoDescription,
+            subject: videoInfoData.videoDescription);
+        VideoProvider videoProvider =
+            Provider.of<VideoProvider>(context, listen: false);
+        var result = await actionShare(videoid: videoid);
+        if (result['noerr'] == 0) {
+          videoProvider.updateShare(type, index, videoInfoData.videoShare + 1);
+        } else {
+          print(result['message']);
+        }
+      } catch (err) {
+        print(err);
       }
     };
   }

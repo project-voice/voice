@@ -172,7 +172,6 @@ class _HomePageState extends State<HomePage>
           : NotificationListener(
               onNotification: (ScrollNotification scrollNotification) {
                 if (scrollNotification is UserScrollNotification) {
-                  print(scrollNotification);
                   if (scrollNotification.direction == ScrollDirection.reverse ||
                       scrollNotification.direction == ScrollDirection.forward) {
                     stop();

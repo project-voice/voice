@@ -1,4 +1,21 @@
 class CommentModel extends Object {
+  int count;
+  List<Comment> commentList;
+  CommentModel({
+    this.count,
+    this.commentList,
+  });
+  factory CommentModel.fromJson(Map<String, dynamic> json) {
+    return CommentModel(
+      count: json['count'] as int,
+      commentList: (json['list'] as List)
+          .map((comment) => Comment.fromJson(comment))
+          .toList(),
+    );
+  }
+}
+
+class Comment extends Object {
   int commentid;
   int releaseid;
   int userid;
@@ -9,7 +26,7 @@ class CommentModel extends Object {
   String userName;
   String releaseName;
   String userImage;
-  CommentModel({
+  Comment({
     this.commentid,
     this.releaseid,
     this.userid,
@@ -21,8 +38,8 @@ class CommentModel extends Object {
     this.releaseName,
     this.userImage,
   });
-  factory CommentModel.fromJson(Map<String, dynamic> json) {
-    return CommentModel(
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
       commentid: json['comment_id'] as int,
       releaseid: json['release_id'] as int,
       userid: json['user_id'] as int,
