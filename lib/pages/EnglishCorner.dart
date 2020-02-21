@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:voice/components/EnglishCorner/EnglishCornerContent.dart';
 
 class EnglishCorner extends StatefulWidget {
@@ -48,45 +47,33 @@ class _EnglishCornerState extends State<EnglishCorner>
   }
 
   Widget getTabBar() {
-    return StoreConnector(converter: (store) {
-      return store.state['englishCorner'];
-    }, builder: (context, englishCorner) {
-      List tabs = englishCorner['topicTitle'];
-      num len = tabs.length;
-      createTabController(len);
-      return TabBar(
-        controller: _tabController,
-        isScrollable: true,
-        tabs: tabs
-            .map((tab) => Tab(
-                child: Text(tab,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold))))
-            .toList(),
-      );
-    });
+    List tabs = [];
+    return TabBar(
+      controller: _tabController,
+      isScrollable: true,
+      tabs: tabs
+          .map((tab) => Tab(
+              child: Text(tab,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold))))
+          .toList(),
+    );
   }
 
   Widget getTabBarPage() {
-    return StoreConnector(converter: (store) {
-      return store.state['englishCorner'];
-    }, builder: (context, englishCorner) {
-      List tabs = englishCorner['topicTitle'];
-      List topicContent = englishCorner['topicContent'];
-      num len = tabs.length;
-      createTabController(len);
-      return TabBarView(
-        controller: _tabController,
-        children: tabs.map((tab) {
-          num index = tabs.indexOf(tab);
-          return EnglishCornerContent(
-              topicContent: topicContent[index],
-              index: index,
-              controller: _tabController);
-        }).toList(),
-      );
-    });
+    List tabs = [];
+    List topicContent = [];
+    return TabBarView(
+      controller: _tabController,
+      children: tabs.map((tab) {
+        num index = tabs.indexOf(tab);
+        return EnglishCornerContent(
+            topicContent: topicContent[index],
+            index: index,
+            controller: _tabController);
+      }).toList(),
+    );
   }
 }

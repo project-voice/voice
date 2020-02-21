@@ -55,7 +55,7 @@ class _CommentListState extends State<CommentList> {
           }
         });
       }
-      print(result['message']);
+      print(result);
     } catch (err) {
       print(err);
     }
@@ -89,7 +89,7 @@ class _CommentListState extends State<CommentList> {
       }
       _commentController.clear();
       FocusScope.of(context).requestFocus(FocusNode());
-      print(result['message']);
+      print(result);
     } catch (err) {
       print(err);
     }

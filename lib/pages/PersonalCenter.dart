@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:voice/components/PersonalCenter/PersonalInfo.dart';
 import 'package:voice/constants/index.dart';
 
@@ -17,28 +16,20 @@ class _PersonalCenterState extends State<PersonalCenter> {
           centerTitle: true,
         ),
         body: Container(
-            width: screenWidth,
-            color: Colors.grey[200],
-            child: StoreConnector(
-              converter: (store) {
-                return store.state;
-              },
-              builder: (context, state) {
-                bool isLogin = state['isLogin'];
-                Map personalData = state['user'];
-                return Column(
-                  children: <Widget>[
-                    PersonalInfo(isLogin: isLogin, personalData: personalData),
-                    Container(
-                        margin: EdgeInsets.only(top: 12),
-                        color: Colors.white,
-                        child: Column(
-                          children: normalListWidget(isLogin),
-                        ))
-                  ],
-                );
-              },
-            )));
+          width: screenWidth,
+          color: Colors.grey[200],
+          child: Column(
+            children: <Widget>[
+              PersonalInfo(isLogin: false, personalData: {}),
+              Container(
+                  margin: EdgeInsets.only(top: 12),
+                  color: Colors.white,
+                  child: Column(
+                    children: normalListWidget(false),
+                  ))
+            ],
+          ),
+        ));
   }
 
   List<Widget> normalListWidget(bool isLogin) {

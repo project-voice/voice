@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:voice/api/Video.dart';
@@ -15,11 +16,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  PageController _recommendPageController;
+  PageController _followPageController;
+
   final tabList = ['推荐', '关注'];
+  List<GlobalKey<VideoActionState>> recommendGlobalKeys = [];
+  List<GlobalKey<VideoActionState>> followGolbalKeys = [];
+  bool _render = true;
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
+    _recommendPageController = PageController();
+    _followPageController = PageController();
     fetchRequest();
   }
 
@@ -31,7 +40,6 @@ class _HomePageState extends State<HomePage>
           Provider.of<VideoProvider>(context, listen: false);
       var result = await getVideoListAll(
         userid: userModel.userid,
-        // userid: 6,
         count: 10,
       );
       videoProvider.initVideoList(result['data']);
@@ -40,14 +48,42 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  void stop() {
+    recommendGlobalKeys.forEach((recommendGlobalKey) {
+      VideoActionState recommendState = recommendGlobalKey.currentState;
+      if (recommendState != null) {
+        recommendState.pause();
+      }
+    });
+    followGolbalKeys.forEach((followGolbalkey) {
+      VideoActionState followState = followGolbalkey.currentState;
+      if (followState != null) {
+        followState.pause();
+      }
+    });
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    stop();
+    _render = !_render;
+  }
+
   @override
   void dispose() {
     super.dispose();
+    stop();
     _tabController?.dispose();
+    _recommendPageController?.dispose();
+    _followPageController?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_render) {
+      return Container();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -55,23 +91,29 @@ class _HomePageState extends State<HomePage>
           child: Column(
             children: <Widget>[
               Expanded(
-                  child: SizedBox(
-                width: 20,
-              )),
+                child: SizedBox(
+                  width: 20,
+                ),
+              ),
               Container(
-                  width: 200,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: TabBar(
-                    controller: _tabController,
-                    tabs: tabList
-                        .map((tab) => Text(tab,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            )))
-                        .toList(),
-                  ))
+                width: 200,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: tabList
+                      .map(
+                        (tab) => Text(
+                          tab,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              )
             ],
           ),
         ),
@@ -88,7 +130,9 @@ class _HomePageState extends State<HomePage>
               ? tabBarViewWidget([recommendList, followList])
               : Container(
                   color: Colors.black,
-                  child: Center(child: Text('正在加载')),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
         },
       ),
@@ -100,6 +144,21 @@ class _HomePageState extends State<HomePage>
       num count = videoModels.length;
       int idx = videoModelList.indexOf(videoModels);
       String type = idx == 0 ? 'recommend' : 'follow';
+      PageController _controller;
+      List<GlobalKey<VideoActionState>> tempGlobalKeys;
+      if (idx == 0) {
+        recommendGlobalKeys = videoModels.map((item) {
+          return GlobalKey<VideoActionState>();
+        }).toList();
+        _controller = _recommendPageController;
+        tempGlobalKeys = recommendGlobalKeys;
+      } else {
+        followGolbalKeys = videoModels.map((item) {
+          return GlobalKey<VideoActionState>();
+        }).toList();
+        _controller = _followPageController;
+        tempGlobalKeys = followGolbalKeys;
+      }
       return count == 0
           ? Container(
               color: Colors.black,
@@ -108,23 +167,51 @@ class _HomePageState extends State<HomePage>
                   '您还未关注任何人',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-              ))
-          : Swiper(
-              loop: false,
-              outer: false,
-              itemCount: count,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return ConstrainedBox(
-                  constraints: BoxConstraints.expand(),
-                  child: Container(
-                      color: Colors.black,
-                      child: VideoAction(
+              ),
+            )
+          : NotificationListener(
+              onNotification: (ScrollNotification scrollNotification) {
+                if (scrollNotification is UserScrollNotification) {
+                  print(scrollNotification);
+                  if (scrollNotification.direction == ScrollDirection.reverse ||
+                      scrollNotification.direction == ScrollDirection.forward) {
+                    stop();
+                  }
+                  if (scrollNotification.direction == ScrollDirection.idle) {
+                    VideoActionState videoActionState;
+
+                    if (_tabController.index == 0) {
+                      videoActionState = recommendGlobalKeys[
+                              _recommendPageController.page.toInt()]
+                          .currentState;
+                    } else {
+                      videoActionState =
+                          followGolbalKeys[_followPageController.page.toInt()]
+                              .currentState;
+                    }
+                    videoActionState?.play();
+                  }
+                }
+                return true;
+              },
+              child: PageView.builder(
+                  itemCount: count,
+                  controller: _controller,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    return ConstrainedBox(
+                      constraints: BoxConstraints.expand(),
+                      child: Container(
+                        color: Colors.black,
+                        child: VideoAction(
+                          key: tempGlobalKeys[index],
                           vedioData: videoModels[index],
                           type: type,
-                          index: index)),
-                );
-              },
+                          index: index,
+                        ),
+                      ),
+                    );
+                  }),
             );
     }).toList();
     return TabBarView(
