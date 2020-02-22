@@ -126,14 +126,15 @@ class _HomePageState extends State<HomePage>
           if (followList.length != 0 || recommendList.length != 0) {
             isRequest = true;
           }
-          return isRequest
-              ? tabBarViewWidget([recommendList, followList])
-              : Container(
-                  color: Colors.black,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+          return
+              // isRequest
+              tabBarViewWidget([recommendList, followList]);
+          // : Container(
+          //     color: Colors.black,
+          //     child: Center(
+          //       child: CircularProgressIndicator(),
+          //     ),
+          //   );
         },
       ),
     );

@@ -61,7 +61,7 @@ class TopicContent {
     Map jsonMap = jsonDecode(json);
     return TopicContent(
       text: jsonMap['text'] as String,
-      images: jsonMap['images'] as List<String>,
+      images: jsonMap['images'].cast<String>() as List<String>,
     );
   }
   String toJson() {

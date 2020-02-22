@@ -10,12 +10,19 @@ class TopicProvider extends ChangeNotifier {
     topicContent = [];
   }
   initTopicList(Map<String, dynamic> json) {
-    topicTitle = json['topic_title'];
-    topicContent = (json['topic_content'] as List).map((topics) {
-      return (topics as List).map((topic) {
-        return TopicModel.fromJson(topic);
-      }).toList();
-    }).toList();
+    topicTitle = json['topic_title'].cast<String>();
+    topicContent = json['topic_content']
+        .map((topics) {
+          return topics
+              .map((topic) {
+                return TopicModel.fromJson(topic);
+              })
+              .cast<TopicModel>()
+              .toList();
+        })
+        .cast<List<TopicModel>>()
+        .toList();
+
     notifyListeners();
   }
 
@@ -28,10 +35,19 @@ class TopicProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateSupport(String type, int topicIdx, Map<String, dynamic> supportJson) {
+  updateSupport(String type, int topicid, Map<String, dynamic> supportJson) {
     Support support = Support.fromJson(supportJson);
     int idx = topicTitle.indexOf(type);
-    topicContent[idx][topicIdx].support = support;
+    topicContent[idx].forEach((topicModel) {
+      if (topicModel.topicid == topicid) {
+        topicModel.support = support;
+      }
+    });
+    topicContent[0].forEach((topicModel) {
+      if (topicModel.topicid == topicid) {
+        topicModel.support = support;
+      }
+    });
     notifyListeners();
   }
 

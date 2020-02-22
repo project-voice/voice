@@ -1,20 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:provider/provider.dart';
+import 'package:voice/api/Topic.dart';
 import 'dart:math' as math;
 
+import 'package:voice/model/TopicModel.dart';
+import 'package:voice/model/UserModel.dart';
+import 'package:voice/provider/TopicProvider.dart';
+import 'package:voice/provider/UserModel.dart';
+
 class MessageItem extends StatefulWidget {
-  final Map content;
+  final TopicModel content;
   final TabController controller;
-  MessageItem({Key key, this.content, this.controller}) : super(key: key);
+  final int index;
+  MessageItem({Key key, this.content, this.controller, this.index})
+      : super(key: key);
   _MessageItemState createState() => _MessageItemState();
 }
 
 class _MessageItemState extends State<MessageItem> {
-  Function topicHandler(List topics) {
-    num index = topics.indexOf(widget.content['topic']);
+  // 标签页跳转
+  Function jumpTopicPage(List<String> topics) {
+    int index = topics.indexOf(widget.content.topicType);
     return () {
       widget.controller.index = index;
     };
+  }
+  // 跳转到详情页
+
+  // 点赞
+  Future<void> supportHandler() async {
+    try {
+      UserModel userModel =
+          Provider.of<UserProvider>(context, listen: false).userInfo;
+      TopicProvider topicProvider =
+          Provider.of<TopicProvider>(context, listen: false);
+      if (userModel.userid == 0) {
+        Navigator.of(context).pushNamed('login');
+        return;
+      }
+      var result = await support(
+        userid: userModel.userid,
+        topicid: widget.content.topicid,
+      );
+      if (result['noerr'] == 0) {
+        topicProvider.updateSupport(
+          widget.content.topicType,
+          widget.content.topicid,
+          result['data'],
+        );
+      }
+      print(result['message']);
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override
@@ -26,40 +65,45 @@ class _MessageItemState extends State<MessageItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              ClipOval(
-                child: CachedNetworkImage(
-                  width: 40,
-                  height: 40,
-                  imageUrl: widget.content['image'],
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+          GestureDetector(
+            onTap: () {
+              // 跳转到详情页
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ClipOval(
+                  child: CachedNetworkImage(
+                    width: 40,
+                    height: 40,
+                    imageUrl: widget.content.userImage,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 4),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Text(widget.content['author'],
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w500)),
-                    Text(widget.content['time'],
-                        style: TextStyle(fontSize: 12, color: Colors.grey))
-                  ],
-                ),
-              )
-            ],
+                Container(
+                  margin: EdgeInsets.only(left: 4),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text(widget.content.userName,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500)),
+                      Text(widget.content.createTime,
+                          style: TextStyle(fontSize: 12, color: Colors.grey))
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           Container(
             margin: EdgeInsets.only(left: 40, top: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(widget.content['content']['text'],
+                Text(widget.content.topicContent.text,
                     style: TextStyle(
                       fontSize: 16,
                     )),
@@ -67,73 +111,8 @@ class _MessageItemState extends State<MessageItem> {
               ],
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(left: 40, top: 10),
-            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-            decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: GestureDetector(
-              onTap: () {},
-              child: Text(
-                '#' + widget.content['topic'],
-                style: TextStyle(fontSize: 12, color: Colors.orange),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.chat,
-                        size: 20,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 2),
-                      child: Text(
-                        widget.content['comment'].toString(),
-                        style: TextStyle(fontSize: 12, color: Colors.grey[400]),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {},
-                      child: Icon(
-                        Icons.thumb_up,
-                        size: 20,
-                        color: widget.content['support']['action']
-                            ? Colors.orange[400]
-                            : Colors.grey[400],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 2),
-                      child: Text(
-                        widget.content['support']['count'].toString(),
-                        style: TextStyle(fontSize: 12, color: Colors.grey[400]),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          )
+          tagLayout(),
+          commentAndSupport()
         ],
       ),
     );
@@ -141,7 +120,7 @@ class _MessageItemState extends State<MessageItem> {
 
   /// 图片布局
   Widget imageLayout(double screenWidth) {
-    List images = widget.content['content']['images'];
+    List<String> images = widget.content.topicContent.images;
     double width;
     if (images.length == 1) {
       width = (screenWidth / 2).floorToDouble() - 50;
@@ -155,6 +134,7 @@ class _MessageItemState extends State<MessageItem> {
           borderRadius: BorderRadius.circular(10),
           child: CachedNetworkImage(
             width: width,
+            height: width,
             fit: BoxFit.cover,
             imageUrl: url,
             placeholder: (context, url) => CircularProgressIndicator(),
@@ -168,6 +148,87 @@ class _MessageItemState extends State<MessageItem> {
         spacing: 4.0,
         runSpacing: 4.0,
         children: imageWidgets,
+      ),
+    );
+  }
+
+  Widget tagLayout() {
+    return Consumer<TopicProvider>(
+      builder: (context, topicProvider, child) {
+        List<String> tabs = topicProvider.topicTitle;
+        return Container(
+          margin: EdgeInsets.only(left: 40, top: 10),
+          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          child: GestureDetector(
+            onTap: jumpTopicPage(tabs),
+            child: Text(
+              '#' + widget.content.topicType,
+              style: TextStyle(fontSize: 12, color: Colors.orange),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget commentAndSupport() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  // 跳转到详情页
+                },
+                child: Icon(
+                  Icons.chat,
+                  size: 20,
+                  color: Colors.grey[400],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 2),
+                child: Text(
+                  widget.content.comment.toString(),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+                ),
+              )
+            ],
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                onTap: supportHandler,
+                child: Icon(
+                  Icons.thumb_up,
+                  size: 20,
+                  color: widget.content.support.action
+                      ? Colors.orange[400]
+                      : Colors.grey[400],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 2),
+                child: Text(
+                  widget.content.support.count.toString(),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[400]),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
