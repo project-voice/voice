@@ -26,7 +26,14 @@ class _MessageItemState extends State<MessageItem> {
       widget.controller.index = index;
     };
   }
+
   // 跳转到详情页
+  void jumpCommentDetailsPage() {
+    Navigator.of(context).pushNamed(
+      'commentDetails',
+      arguments: widget.content,
+    );
+  }
 
   // 点赞
   Future<void> supportHandler() async {
@@ -66,9 +73,7 @@ class _MessageItemState extends State<MessageItem> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           GestureDetector(
-            onTap: () {
-              // 跳转到详情页
-            },
+            onTap: jumpCommentDetailsPage,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -187,9 +192,7 @@ class _MessageItemState extends State<MessageItem> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: () {
-                  // 跳转到详情页
-                },
+                onTap: jumpCommentDetailsPage,
                 child: Icon(
                   Icons.chat,
                   size: 20,

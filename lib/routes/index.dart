@@ -6,6 +6,7 @@ import 'package:voice/pages/Login/Register.dart';
 import 'package:voice/pages/Login/NewPassword.dart';
 import 'package:voice/components/Release/ReleaseTopic.dart';
 import 'package:voice/components/Release/ReleaseVideo.dart';
+import 'package:voice/components/EnglishCorner/CommentDetails.dart';
 
 Map routes = <String, WidgetBuilder>{
   // 首页
@@ -18,4 +19,6 @@ Map routes = <String, WidgetBuilder>{
   // 发布主题、视频
   'releaseTopic': (context) => ReleaseTopic(),
   'releaseVideo': (context) => ReleaseVideo(),
+  //话题详情
+  'commentDetails': (context) => CommentDetails(),
 };

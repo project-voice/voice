@@ -85,7 +85,10 @@ class _CommentListState extends State<CommentList> {
         featchRequest(page++, count, 'load');
         // 更新videoProvider中的数据
         videoProvider.updateComment(
-            widget.type, widget.index, widget.videoData.comment + 1);
+          widget.type,
+          widget.index,
+          widget.videoData.comment + 1,
+        );
       }
       _commentController.clear();
       FocusScope.of(context).requestFocus(FocusNode());

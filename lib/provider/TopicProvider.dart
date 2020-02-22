@@ -51,9 +51,18 @@ class TopicProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateComment(String type, int, topicIdx, int comment) {
-    num idx = topicTitle.indexOf(type);
-    topicContent[idx][topicIdx].comment = comment;
+  updateComment(String type, int topicid, int comment) {
+    int idx = topicTitle.indexOf(type);
+    topicContent[idx].forEach((topicModel) {
+      if (topicModel.topicid == topicid) {
+        topicModel.comment = comment;
+      }
+    });
+    topicContent[0].forEach((topicModel) {
+      if (topicModel.topicid == topicid) {
+        topicModel.comment = comment;
+      }
+    });
     notifyListeners();
   }
 }

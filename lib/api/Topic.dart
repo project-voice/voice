@@ -99,7 +99,7 @@ Future<dynamic> getCommentList({
   int page,
 }) async {
   Response response =
-      await _dio.get('$BASE_URL/topic/comment_list', queryParameters: {
+      await _dio.get('$BASE_URL/topic/comment-list', queryParameters: {
     'topic_id': topicid,
     'count': count,
     'page': page,
