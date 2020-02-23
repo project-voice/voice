@@ -8,9 +8,9 @@ List personalCenterPagesRoute = [
     'page': 'systemMessage',
   },
   {
-    'icon': Icons.new_releases,
-    'iconColor': Colors.red,
-    'title': '我发布的',
+    'icon': Icons.home,
+    'iconColor': Colors.orange,
+    'title': '个人主页',
     'page': 'releaseList'
   },
   {

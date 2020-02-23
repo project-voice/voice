@@ -11,11 +11,8 @@ class PersonalInfo extends StatelessWidget {
     num screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () {
-        if (isLogin) {
+        if (!isLogin) {
           //跳转到个人主页
-          Navigator.of(context).pushNamed('personalPage');
-        } else {
-          // 跳转到登录页面
           Navigator.of(context).pushNamed('login');
         }
       },
@@ -60,11 +57,13 @@ class PersonalInfo extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.grey[400],
-                size: 40,
-              ),
+              child: isLogin
+                  ? Container()
+                  : Icon(
+                      Icons.keyboard_arrow_right,
+                      color: Colors.grey[400],
+                      size: 40,
+                    ),
             )
           ],
         ),

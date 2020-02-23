@@ -11,11 +11,6 @@ class PersonalCenter extends StatefulWidget {
 
 class _PersonalCenterState extends State<PersonalCenter> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     num screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -39,7 +34,7 @@ class _PersonalCenterState extends State<PersonalCenter> {
                   child: Column(
                     children: normalListWidget(_isLogin),
                   ),
-                )
+                ),
               ],
             ),
           );
