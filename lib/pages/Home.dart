@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Video/VideoAction.dart';
@@ -23,6 +22,7 @@ class _HomePageState extends State<HomePage>
   List<GlobalKey<VideoActionState>> recommendGlobalKeys = [];
   List<GlobalKey<VideoActionState>> followGolbalKeys = [];
   bool _render = true;
+  bool _isRequest = false;
   @override
   void initState() {
     super.initState();
@@ -42,7 +42,13 @@ class _HomePageState extends State<HomePage>
         userid: userModel.userid,
         count: 10,
       );
-      videoProvider.initVideoList(result['data']);
+      if (result['noerr'] == 0) {
+        videoProvider.initVideoList(result['data']);
+        setState(() {
+          _isRequest = true;
+        });
+      }
+      print(result['message']);
     } catch (err) {
       print(err);
     }
@@ -122,19 +128,14 @@ class _HomePageState extends State<HomePage>
         builder: (context, videoData, child) {
           List<VideoModel> followList = videoData.followList;
           List<VideoModel> recommendList = videoData.recommendList;
-          bool isRequest = false;
-          if (followList.length != 0 || recommendList.length != 0) {
-            isRequest = true;
-          }
-          return
-              // isRequest
-              tabBarViewWidget([recommendList, followList]);
-          // : Container(
-          //     color: Colors.black,
-          //     child: Center(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   );
+          return _isRequest
+              ? tabBarViewWidget([recommendList, followList])
+              : Container(
+                  color: Colors.black,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
         },
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:voice/model/UserModel.dart';
+import 'package:voice/provider/UserModel.dart';
 import 'package:voice/routes/bottomBar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class IndexPage extends StatefulWidget {
   final String title;
@@ -32,27 +34,40 @@ class _IndexPageState extends State<IndexPage> {
             return Column(
               children: <Widget>[
                 GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed(release['page']);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          boxShadow: [
-                            BoxShadow(color: Colors.grey[400], blurRadius: 4.0)
-                          ]),
-                      child: ClipOval(
-                          child: Image.asset(release['iconUrl'],
-                              width: 50, height: 50)),
-                    )),
+                  onTap: () {
+                    UserModel userModel = Provider.of<UserProvider>(
+                      context,
+                      listen: false,
+                    ).userInfo;
+                    if (userModel.userid == 0) {
+                      Navigator.of(context).pushNamed('login');
+                      return;
+                    }
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(release['page']);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey[400], blurRadius: 4.0)
+                        ]),
+                    child: ClipOval(
+                      child: Image.asset(release['iconUrl'],
+                          width: 50, height: 50),
+                    ),
+                  ),
+                ),
                 Container(
-                    margin: EdgeInsets.only(top: 8),
-                    child: Text(release['text'],
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                        )))
+                  margin: EdgeInsets.only(top: 8),
+                  child: Text(
+                    release['text'],
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
               ],
             );
           }).toList();
@@ -73,24 +88,28 @@ class _IndexPageState extends State<IndexPage> {
       IconData icon = item['icon'];
       Color color =
           index == this._selectedKey ? Colors.deepOrangeAccent : Colors.white;
-      tabBarList.add(IconButton(
-        icon: Icon(icon),
-        color: color,
-        onPressed: () {
-          setState(() {
-            this._selectedKey = index;
-          });
-        },
-      ));
+      tabBarList.add(
+        IconButton(
+          icon: Icon(icon),
+          color: color,
+          onPressed: () {
+            setState(() {
+              this._selectedKey = index;
+            });
+          },
+        ),
+      );
     });
 
     return Scaffold(
         bottomNavigationBar: BottomAppBar(
-            color: Colors.orange[200],
-            shape: CircularNotchedRectangle(),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: tabBarList)),
+          color: Colors.orange[200],
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: tabBarList,
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,

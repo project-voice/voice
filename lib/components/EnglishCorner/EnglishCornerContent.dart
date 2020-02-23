@@ -29,7 +29,7 @@ class EnglishCornerContent extends StatefulWidget {
 class _EnglishCornerContentState extends State<EnglishCornerContent> {
   EasyRefreshController _easyRefreshController;
   int page = 2;
-  int count = 2;
+  int count = 10;
   @override
   void initState() {
     super.initState();

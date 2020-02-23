@@ -12,14 +12,16 @@ class EnglishCorner extends StatefulWidget {
 }
 
 class _EnglishCornerState extends State<EnglishCorner>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TabController _tabController;
-  final int count = 2;
+  final int count = 10;
   bool isRequest = false;
+  List<String> tabs = [];
   @override
   void initState() {
     super.initState();
     fetchRequestAll(count);
+    _tabController = TabController(length: 0, vsync: this);
   }
 
   @override
@@ -43,6 +45,8 @@ class _EnglishCornerState extends State<EnglishCorner>
       }
       setState(() {
         isRequest = true;
+        _tabController = TabController(
+            length: result['data']['topic_title'].length, vsync: this);
       });
       print(result['message']);
     } catch (err) {

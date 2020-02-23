@@ -5,8 +5,11 @@ import 'dart:io';
 import 'package:photo/photo.dart'; //调用photo库
 import 'package:photo_manager/photo_manager.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart'; //图片压缩
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Topic.dart';
+import 'package:voice/model/UserModel.dart';
+import 'package:voice/provider/UserModel.dart';
 
 class ReleaseTopic extends StatefulWidget {
   _ReleaseTopicState createState() => _ReleaseTopicState();
@@ -250,16 +253,23 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
         return;
       }
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
       var result = await releaseTopic(
-        userId: 6,
+        userId: userModel.userid,
         topicType: _topic,
         files: images,
         content: content,
       );
       if (result['noerr'] == 0) {
-        Toast.show(result['message'], context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        Future.delayed(Duration(seconds: 2)).then((value) {
+          Navigator.of(context).pop();
+        });
       }
+      Toast.show(result['message'], context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     } catch (err) {
       Toast.show('发布失败', context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
