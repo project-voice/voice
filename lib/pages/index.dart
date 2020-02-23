@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voice/model/UserModel.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/routes/bottomBar.dart';
 
 class IndexPage extends StatefulWidget {

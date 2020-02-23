@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Video/VideoAction.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/model/VideoModel.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +19,7 @@ class _HomePageState extends State<HomePage>
   TabController _tabController;
   PageController _recommendPageController;
   PageController _followPageController;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   final tabList = ['推荐', '关注'];
   List<GlobalKey<VideoActionState>> recommendGlobalKeys = [];
@@ -34,6 +37,14 @@ class _HomePageState extends State<HomePage>
 
   Future<void> fetchRequest() async {
     try {
+      UserProvider userProvider =
+          Provider.of<UserProvider>(context, listen: false);
+      SharedPreferences prefs = await _prefs;
+      String userInfoJson = prefs.getString('user');
+      if (userInfoJson != null) {
+        Map userInfo = jsonDecode(userInfoJson);
+        await userProvider.updateUserInfo(userInfo);
+      }
       UserModel userModel =
           Provider.of<UserProvider>(context, listen: false).userInfo;
       VideoProvider videoProvider =
@@ -128,14 +139,16 @@ class _HomePageState extends State<HomePage>
         builder: (context, videoData, child) {
           List<VideoModel> followList = videoData.followList;
           List<VideoModel> recommendList = videoData.recommendList;
-          return _isRequest
-              ? tabBarViewWidget([recommendList, followList])
-              : Container(
-                  color: Colors.black,
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+          return
+              // _isRequest
+              // ?
+              tabBarViewWidget([recommendList, followList]);
+          // : Container(
+          //     color: Colors.black,
+          //     child: Center(
+          //       child: CircularProgressIndicator(),
+          //     ),
+          //   );
         },
       ),
     );

@@ -8,7 +8,7 @@ import 'package:voice/components/EnglishCorner/MessageItem.dart';
 import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 
 class EnglishCornerContent extends StatefulWidget {
   final List<TopicModel> topicContent;

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:voice/model/UserModel.dart';
@@ -26,7 +25,9 @@ class UserProvider extends ChangeNotifier {
     return UserModel(userid: 0);
   }
 
-  updateUserInfo(Map<String, dynamic> json) {
+  updateUserInfo(Map<String, dynamic> json) async {
+    SharedPreferences prefs = await _prefs;
+    prefs.setString('user', jsonEncode(json));
     userInfo = UserModel.fromJson(json);
     notifyListeners();
   }

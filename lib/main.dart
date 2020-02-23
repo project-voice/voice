@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:voice/provider/TopicProvider.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
-// import 'package:flutter_redux/flutter_redux.dart';
-// import 'package:redux/redux.dart';
 import 'package:voice/routes/index.dart';
-// import 'package:voice/store/index.dart';
 import 'package:provider/provider.dart';
 
 void main() {

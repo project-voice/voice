@@ -45,22 +45,13 @@ Future<dynamic> register({
 
 // 登录
 Future<dynamic> login({
-  String userName,
   String userPassword,
   String userEmail,
 }) async {
-  FormData formData;
-  if (userName != null) {
-    formData = FormData.fromMap({
-      'user_password': userPassword,
-      'user_name': userName,
-    });
-  } else {
-    formData = FormData.fromMap({
-      'user_password': userPassword,
-      'user_email': userEmail,
-    });
-  }
+  FormData formData = FormData.fromMap({
+    'user_password': userPassword,
+    'user_email': userEmail,
+  });
   Response response = await _dio.post('$BASE_URL/user/login', data: formData);
   return response.data;
 }

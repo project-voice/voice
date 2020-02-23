@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Topic.dart';
 import 'package:voice/model/UserModel.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 
 class ReleaseTopic extends StatefulWidget {
   _ReleaseTopicState createState() => _ReleaseTopicState();
@@ -249,8 +249,12 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
         return;
       }
       if (_topic == '') {
-        Toast.show('必须要选择一个话题', context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        Toast.show(
+          '必须要选择一个话题',
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+        );
         return;
       }
       UserModel userModel = Provider.of<UserProvider>(

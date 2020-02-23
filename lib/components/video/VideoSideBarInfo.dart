@@ -9,7 +9,7 @@ import 'package:voice/model/UserModel.dart';
 import 'package:voice/model/VideoModel.dart';
 import 'dart:math' as math;
 
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
 
 class VideoSideBarInfo extends StatelessWidget {

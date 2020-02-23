@@ -8,7 +8,7 @@ import 'package:voice/components/common/CommentItem.dart';
 import 'package:voice/model/CommentModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/model/VideoModel.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
 
 class CommentList extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:voice/components/EnglishCorner/EnglishCornerContent.dart';
 import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 
 class EnglishCorner extends StatefulWidget {
   _EnglishCornerState createState() => _EnglishCornerState();

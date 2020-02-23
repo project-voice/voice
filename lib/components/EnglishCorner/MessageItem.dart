@@ -7,7 +7,7 @@ import 'dart:math' as math;
 import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
-import 'package:voice/provider/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 
 class MessageItem extends StatefulWidget {
   final TopicModel content;
