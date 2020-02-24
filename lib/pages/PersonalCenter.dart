@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voice/api/Message.dart';
 import 'package:voice/components/PersonalCenter/PersonalInfo.dart';
 import 'package:voice/constants/index.dart';
 import 'package:voice/model/UserModel.dart';
@@ -10,6 +11,35 @@ class PersonalCenter extends StatefulWidget {
 }
 
 class _PersonalCenterState extends State<PersonalCenter> {
+  int tips = 0;
+  @override
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fetchRequest();
+  }
+
+  Future<void> fetchRequest() async {
+    try {
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      if (userModel.userid == 0) {
+        return;
+      }
+      var result = await getTips(userid: userModel.userid);
+      if (result['noerr'] == 0) {
+        setState(() {
+          tips = result['data'];
+        });
+      }
+      print(result['message']);
+    } catch (err) {
+      print(err);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     num screenWidth = MediaQuery.of(context).size.width;
@@ -45,6 +75,8 @@ class _PersonalCenterState extends State<PersonalCenter> {
 
   List<Widget> normalListWidget(bool isLogin) {
     return personalCenterPagesRoute.map((item) {
+      bool isSystemMessage =
+          item['title'] == '系统消息' && tips != 0 ? true : false;
       return Builder(builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -80,13 +112,29 @@ class _PersonalCenterState extends State<PersonalCenter> {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.keyboard_arrow_right,
-                    color: Colors.grey[400],
-                  ),
-                ),
+                isSystemMessage
+                    ? Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey[400],
+                                blurRadius: 6.0,
+                              )
+                            ]),
+                        child: Center(
+                          child: Text(
+                            tips.toString(),
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.keyboard_arrow_right,
+                        color: Colors.grey[400],
+                      ),
               ],
             ),
           ),
