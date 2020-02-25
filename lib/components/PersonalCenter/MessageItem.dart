@@ -17,11 +17,17 @@ class MessageItem extends StatelessWidget {
           ),
           Container(
               width: screenWidth,
-              margin: EdgeInsets.only(top: 8),
+              margin: EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[400],
+                      offset: Offset(0.0, 4.0),
+                      blurRadius: 4,
+                    )
+                  ]),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
