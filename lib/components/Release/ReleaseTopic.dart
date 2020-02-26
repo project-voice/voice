@@ -174,7 +174,9 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
                 color: Colors.black26,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
                 child: ListTile(
                   title: Center(
                     child: Text(

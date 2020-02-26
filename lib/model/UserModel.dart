@@ -20,12 +20,13 @@ class UserModel extends Object {
     this.createTime,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    print(json['user_sex']);
     return UserModel(
       userid: json['user_id'] as int,
       userPassword: json['user_password'] as String,
       userEmail: json['user_email'] as String,
       userDescription: json['user_description'] as String,
-      userSex: json['user_sex'] == 0 ? '男' : '女',
+      userSex: json['user_sex'] as String,
       userBirthday: json['user_birthday'] as String,
       userImage: json['user_image'] as String,
       userName: json['user_name'] as String,

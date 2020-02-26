@@ -32,6 +32,13 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  logout() async {
+    SharedPreferences prefs = await _prefs;
+    prefs.remove('user');
+    userInfo = UserModel(userid: 0);
+    notifyListeners();
+  }
+
   setFollowList(List<Map> jsons) {
     followList = jsons.map((json) {
       return UserModel.fromJson(json);
@@ -39,32 +46,50 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  setUserMessage(String key, String value) {
+  setUserMessage(String key, String value) async {
+    SharedPreferences prefs = await _prefs;
     switch (key) {
       case 'name':
         userInfo.userName = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
         return;
       case 'password':
         userInfo.userPassword = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
         return;
       case 'description':
         userInfo.userDescription = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
         return;
       case 'sex':
         userInfo.userSex = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
         return;
       case 'birthday':
         userInfo.userBirthday = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
         return;
       case 'image':
         userInfo.userImage = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
         notifyListeners();
-
+        return;
+      case 'email':
+        userInfo.userEmail = value;
+        Map<String, dynamic> json = userInfo.toJson();
+        prefs.setString('user', jsonEncode(json));
+        notifyListeners();
         return;
       default:
         return;
