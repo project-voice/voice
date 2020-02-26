@@ -85,8 +85,8 @@ class HeaderImage extends StatelessWidget {
                         )
                       : Image.asset(
                           'assets/images/person-head.jpeg',
-                          width: 50,
-                          height: 50,
+                          width: 40,
+                          height: 40,
                         ),
                 ],
               ),

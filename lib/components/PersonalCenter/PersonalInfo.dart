@@ -27,7 +27,7 @@ class PersonalInfo extends StatelessWidget {
             Expanded(
               flex: 1,
               child: ClipOval(
-                child: isLogin
+                child: isLogin && userModel.userImage != null
                     ? CachedNetworkImage(
                         width: 50,
                         height: 50,

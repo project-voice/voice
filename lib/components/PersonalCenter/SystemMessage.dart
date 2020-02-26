@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:voice/api/Message.dart';
 import 'package:voice/components/PersonalCenter/MessageItem.dart';
 import 'package:voice/model/MessageModel.dart';
@@ -26,6 +27,15 @@ class _SystemMessageState extends State<SystemMessage> {
       ).userInfo;
       var result = await getMessageList(userid: userModel.userid);
       if (result['noerr'] == 0) {
+        if (result['data'] == null) {
+          Toast.show(
+            result['message'],
+            context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.CENTER,
+          );
+          return;
+        }
         setState(() {
           messageList = result['data']
               .map((message) {

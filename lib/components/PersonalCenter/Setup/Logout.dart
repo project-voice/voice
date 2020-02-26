@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:voice/provider/UserProvider.dart';
 
 class Logout extends StatelessWidget {
-  @override
   Function logoutHandler(BuildContext context) {
     return () async {
       await Provider.of<UserProvider>(context, listen: false).logout();

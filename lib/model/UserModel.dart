@@ -20,7 +20,6 @@ class UserModel extends Object {
     this.createTime,
   });
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    print(json['user_sex']);
     return UserModel(
       userid: json['user_id'] as int,
       userPassword: json['user_password'] as String,

@@ -32,11 +32,9 @@ class _SexState extends State<Sex> {
 
   Future<void> switchHander(selected) async {
     try {
-      int value = 0;
-      String text = '男';
+      String value = '男';
       if (selected) {
-        value = 1;
-        text = '女';
+        value = '女';
       }
       var result = await updateUserInfo(
         userid: widget.userModel.userid,
@@ -46,7 +44,7 @@ class _SexState extends State<Sex> {
       if (result['noerr'] == 0) {
         await Provider.of<UserProvider>(context, listen: false).setUserMessage(
           'sex',
-          text,
+          value,
         );
       }
       setState(() {
