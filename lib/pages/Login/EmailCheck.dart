@@ -1,6 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
+import 'package:voice/api/User.dart';
+import 'package:voice/model/UserModel.dart';
+import 'package:voice/provider/UserProvider.dart';
 
 class EmailCheck extends StatefulWidget {
   _EmailCheckState createState() => _EmailCheckState();
@@ -41,9 +46,8 @@ class _EmailCheckState extends State<EmailCheck> {
   @override
   void dispose() {
     super.dispose();
-    // 页面卸载将Controller销毁掉
-    _emialControoler.dispose();
-    _identityCode.dispose();
+    _emialControoler?.dispose();
+    _identityCode?.dispose();
     cancelTimer();
   }
 
@@ -74,6 +78,77 @@ class _EmailCheckState extends State<EmailCheck> {
     _timer?.cancel();
   }
 
+  // 验证邮箱格式，调后端接口发送验证码，60秒倒计时。
+  void sendEmailCallback() async {
+    if (isSend) return;
+    if (isEmail(_email)) {
+      // 掉后端接口发送验证码
+      bool result = await sendEmail();
+      if (result) {
+        // 开启倒计时
+        startTimer();
+        setState(() {
+          isSend = true;
+        });
+      }
+    } else {
+      Toast.show(
+        '邮箱格式不正确',
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
+    }
+  }
+
+  // 调邮箱发送验证码请求
+  Future<bool> sendEmail() async {
+    try {
+      var arguments = ModalRoute.of(context).settings.arguments;
+      var result = await emailIdentity(userEmail: _email, type: arguments);
+      Toast.show(
+        result['message'],
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
+      if (result['noerr'] == 0) {
+        return true;
+      }
+    } catch (err) {
+      print(err);
+    }
+    return false;
+  }
+
+  // 验证验证码是否正确
+  Function checkIdentityCallback(nextPage) {
+    return () async {
+      // 1、发送请求验证验证码是否正确
+      // 2、如果正确跳转到修改密码界面
+      try {
+        String identity = _identityCode.text;
+        var result = await checkIdentity(
+          userEmail: _email,
+          identity: identity,
+        );
+        if (result['noerr'] == 0) {
+          Future.delayed(Duration(seconds: 1)).then((value) {
+            Navigator.of(context).pushNamed(nextPage, arguments: _email);
+          });
+        }
+        Toast.show(
+          result['message'],
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+        );
+      } catch (err) {
+        print(err);
+      }
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     num screenWidth = MediaQuery.of(context).size.width;
@@ -82,93 +157,83 @@ class _EmailCheckState extends State<EmailCheck> {
     String subTitle = titleInfo[arguments]['subTitle'];
     String nextPage = titleInfo[arguments]['nextPage'];
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          centerTitle: true,
-        ),
-        body: Container(
-            width: screenWidth,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            child: Form(
-                key: _formKey,
-                child: Column(
+      appBar: AppBar(
+        title: Text(title),
+        centerTitle: true,
+      ),
+      body: Container(
+        width: screenWidth,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              Text(subTitle),
+              Container(
+                height: 60,
+                margin: EdgeInsets.only(top: 8),
+                child: TextFormField(
+                  controller: _emialControoler,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: '邮箱',
+                    hintText: '请输入邮箱',
+                    prefixIcon: Icon(Icons.email),
+                    suffix: GestureDetector(
+                      onTap: sendEmailCallback,
+                      child: Text(
+                        countDown == 60 ? '发送验证码' : countDown.toString(),
+                        style: TextStyle(
+                          color: isSend ? Colors.grey : Colors.orange,
+                        ),
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
+                ),
+              ),
+              Container(
+                height: 60,
+                margin: EdgeInsets.only(top: 8),
+                child: TextFormField(
+                  controller: _identityCode,
+                  decoration: InputDecoration(
+                    labelText: '验证码',
+                    hintText: '请输入验证码',
+                    prefixIcon: Icon(Icons.vpn_key),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 8),
+                child: Row(
                   children: <Widget>[
-                    Text(subTitle),
-                    Container(
-                      height: 60,
-                      margin: EdgeInsets.only(top: 8),
-                      child: TextFormField(
-                        controller: _emialControoler,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                            labelText: '邮箱',
-                            hintText: '请输入邮箱',
-                            prefixIcon: Icon(Icons.email),
-                            suffix: GestureDetector(
-                                onTap: () {
-                                  // 验证邮箱格式，调后端接口发送验证码，60秒倒计时。
-                                  if (isSend) return;
-                                  if (isEmail(_email)) {
-                                    startTimer();
-                                    setState(() {
-                                      isSend = true;
-                                    });
-                                  } else {
-                                    print('邮箱格式错误');
-                                  }
-                                },
-                                child: Text(
-                                  countDown == 60
-                                      ? '发送验证码'
-                                      : countDown.toString(),
-                                  style: TextStyle(
-                                    color: isSend ? Colors.grey : Colors.orange,
-                                  ),
-                                )),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
-                        onChanged: (value) {
-                          setState(() {
-                            _email = value;
-                          });
-                        },
-                      ),
-                    ),
-                    Container(
-                      height: 60,
-                      margin: EdgeInsets.only(top: 8),
-                      child: TextFormField(
-                        controller: _identityCode,
-                        decoration: InputDecoration(
-                            labelText: '验证码',
-                            hintText: '请输入验证码',
-                            prefixIcon: Icon(Icons.vpn_key),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            )),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: RaisedButton(
-                            padding: EdgeInsets.all(15.0),
-                            child: Text("下一步"),
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            onPressed: () {
-                              // 1、发送请求验证验证码是否正确
-                              // 2、如果正确跳转到修改密码界面
-                              Navigator.of(context).pushNamed(nextPage);
-                            },
-                          ))
-                        ],
+                    Expanded(
+                      child: RaisedButton(
+                        padding: EdgeInsets.all(15.0),
+                        child: Text("下一步"),
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        onPressed: checkIdentityCallback(nextPage),
                       ),
                     )
                   ],
-                ))));
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

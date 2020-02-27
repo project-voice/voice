@@ -45,9 +45,9 @@ class _LoginState extends State<Login> {
   }
 
   String passwordValidator(value) {
-    // if (!regexpPassword(value)) {
-    //   return '密码格式不正确';
-    // }
+    if (!regexpPassword(value)) {
+      return '密码格式不正确';
+    }
     return null;
   }
 
@@ -107,6 +107,9 @@ class _LoginState extends State<Login> {
                         decoration: InputDecoration(
                           labelText: '邮箱',
                           hintText: '请输入邮箱',
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                          ),
                           prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -123,7 +126,10 @@ class _LoginState extends State<Login> {
                         obscureText: hidePassword,
                         decoration: InputDecoration(
                           labelText: '密码',
-                          hintText: '请输入您的密码',
+                          hintText: '包括：数字、字母大小写、特殊符号且长度大于8位',
+                          hintStyle: TextStyle(
+                            fontSize: 12,
+                          ),
                           prefixIcon: Icon(Icons.lock),
                           suffix: GestureDetector(
                             onTap: () {

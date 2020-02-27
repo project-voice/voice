@@ -6,10 +6,12 @@ Dio _dio = new Dio();
 // 发送邮箱邮箱
 Future<dynamic> emailIdentity({
   String userEmail,
+  String type,
 }) async {
   Response response =
       await _dio.get('$BASE_URL/email/send-email', queryParameters: {
     'user_email': userEmail,
+    'type': type,
   });
   return response.data;
 }
