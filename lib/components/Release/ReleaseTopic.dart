@@ -298,57 +298,60 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
             child: Text(
               '发布',
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600),
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
       ),
       body: Container(
-          width: screenWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: TextField(
-                  controller: _messageController,
-                  maxLines: 6,
-                  maxLength: 100,
-                  decoration: InputDecoration(
-                    hintText: '发布你的想法...',
-                    hintStyle: TextStyle(fontSize: 14),
-                    border: InputBorder.none,
-                  ),
+        width: screenWidth,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: TextField(
+                controller: _messageController,
+                maxLines: 6,
+                maxLength: 100,
+                decoration: InputDecoration(
+                  hintText: '发布你的想法...',
+                  hintStyle: TextStyle(fontSize: 14),
+                  border: InputBorder.none,
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(left: 16),
-                child: _topic == ''
-                    ? FlatButton.icon(
-                        color: Colors.orangeAccent,
-                        icon: Icon(Icons.add),
-                        label: Text("选择话题"),
-                        onPressed: () {
-                          showPicker(context);
-                        },
-                      )
-                    : FlatButton(
-                        color: Colors.orangeAccent,
-                        child: Text(_topic),
-                        onPressed: () {
-                          showPicker(context);
-                        },
-                      ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 16),
+              child: _topic == ''
+                  ? FlatButton.icon(
+                      color: Colors.orangeAccent,
+                      icon: Icon(Icons.add),
+                      label: Text("选择话题"),
+                      onPressed: () {
+                        showPicker(context);
+                      },
+                    )
+                  : FlatButton(
+                      color: Colors.orangeAccent,
+                      child: Text(_topic),
+                      onPressed: () {
+                        showPicker(context);
+                      },
+                    ),
+            ),
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Wrap(
+                children: imageList,
               ),
-              Container(
-                  padding: EdgeInsets.all(16),
-                  child: Wrap(
-                    children: imageList,
-                  ))
-            ],
-          )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

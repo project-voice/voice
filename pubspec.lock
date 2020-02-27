@@ -191,6 +191,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.2"
+  loading_dialog:
+    dependency: "direct main"
+    description:
+      name: loading_dialog
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1+1"
   matcher:
     dependency: transitive
     description:
