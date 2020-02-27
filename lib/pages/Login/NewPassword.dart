@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+import 'package:voice/api/User.dart';
 
 class NewPassword extends StatefulWidget {
   _NewPasswordState createState() => _NewPasswordState();
@@ -8,6 +10,8 @@ class _NewPasswordState extends State<NewPassword> {
   TextEditingController _newPasswordController;
   GlobalKey _formKey;
   bool hidePassword = true;
+  RegExp passRegexp =
+      RegExp('(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,30}');
   @override
   void initState() {
     super.initState();
@@ -19,6 +23,46 @@ class _NewPasswordState extends State<NewPassword> {
   void dispose() {
     super.dispose();
     _newPasswordController?.dispose();
+  }
+
+  bool regexpPassword(input) {
+    if (input == null || input.isEmpty) return false;
+    return passRegexp.hasMatch(input);
+  }
+
+  Future<void> updatePassword() async {
+    try {
+      String password = _newPasswordController.text;
+      if (!regexpPassword(password)) {
+        Toast.show(
+          '密码格式不正确，必须包括：数字、字母大小写、特殊符号且长度大于8位。',
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.CENTER,
+        );
+        return;
+      }
+      Map arguments = ModalRoute.of(context).settings.arguments;
+      var result = await updateUserInfo(
+        userid: arguments['userid'],
+        key: 'user_password',
+        value: password,
+      );
+      if (result['noerr'] == 0) {
+        Future.delayed(Duration(seconds: 1)).then((value) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        });
+      }
+      Toast.show(
+        result['message'],
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override
@@ -43,7 +87,10 @@ class _NewPasswordState extends State<NewPassword> {
                   obscureText: hidePassword,
                   decoration: InputDecoration(
                     labelText: '密码',
-                    hintText: '请输入新密码',
+                    hintText: '包括：数字、字母大小写、特殊符号且长度大于8位',
+                    hintStyle: TextStyle(
+                      fontSize: 12,
+                    ),
                     prefixIcon: Icon(Icons.lock),
                     suffix: GestureDetector(
                       onTap: () {
@@ -67,9 +114,6 @@ class _NewPasswordState extends State<NewPassword> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  validator: (value) {
-                    return null;
-                  },
                 ),
               ),
               Container(
@@ -85,14 +129,7 @@ class _NewPasswordState extends State<NewPassword> {
                             )),
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
-                        onPressed: () {
-                          if ((_formKey.currentState as FormState).validate()) {
-                            // 登录发起请求，登录成功之后获取到用户信息存入Store,然后跳转到首页。
-                            // 1、发起请求
-                            // 2、请求回来之后用户信息写入store
-                            // dispatch();
-                          }
-                        },
+                        onPressed: updatePassword,
                       ),
                     ),
                   ],

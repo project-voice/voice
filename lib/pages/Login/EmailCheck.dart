@@ -33,6 +33,7 @@ class _EmailCheckState extends State<EmailCheck> {
   final String regexEmail =
       "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*\$";
   String _email;
+  UserModel userModel = UserModel(userid: 0);
 
   @override
   void initState() {
@@ -113,6 +114,9 @@ class _EmailCheckState extends State<EmailCheck> {
         gravity: Toast.CENTER,
       );
       if (result['noerr'] == 0) {
+        setState(() {
+          userModel = UserModel.fromJson(result['data']);
+        });
         return true;
       }
     } catch (err) {
@@ -134,7 +138,10 @@ class _EmailCheckState extends State<EmailCheck> {
         );
         if (result['noerr'] == 0) {
           Future.delayed(Duration(seconds: 1)).then((value) {
-            Navigator.of(context).pushNamed(nextPage, arguments: _email);
+            Navigator.of(context).pushNamed(nextPage, arguments: {
+              'email': _email,
+              'userid': userModel?.userid,
+            });
           });
         }
         Toast.show(
