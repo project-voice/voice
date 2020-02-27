@@ -5,10 +5,12 @@ class ReleaseList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('我发布的'),
+        title: Text('个人主页'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: Center(
+        child: Text('该功能未开放'),
+      ),
     );
   }
 }

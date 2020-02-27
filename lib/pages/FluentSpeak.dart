@@ -14,7 +14,7 @@ class _FluentSpeakState extends State<FluentSpeak> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(),
+      child: Text('该功能未开放'),
     );
   }
 }
