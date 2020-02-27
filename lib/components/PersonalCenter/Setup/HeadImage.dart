@@ -73,21 +73,23 @@ class HeaderImage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  userModel.userImage != null
-                      ? CachedNetworkImage(
-                          width: 40,
-                          height: 40,
-                          imageUrl: userModel.userImage,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        )
-                      : Image.asset(
-                          'assets/images/person-head.jpeg',
-                          width: 40,
-                          height: 40,
-                        ),
+                  ClipOval(
+                    child: userModel.userImage != null
+                        ? CachedNetworkImage(
+                            width: 40,
+                            height: 40,
+                            imageUrl: userModel.userImage,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          )
+                        : Image.asset(
+                            'assets/images/person-head.jpeg',
+                            width: 40,
+                            height: 40,
+                          ),
+                  ),
                 ],
               ),
             ),

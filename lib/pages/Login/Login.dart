@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
     return passRegexp.hasMatch(input);
   }
 
-  String usernameValidator(value) {
+  String emailValidator(value) {
     bool isEmpty = value.trim().length == 0;
     if (isEmpty) {
       return '邮箱不能为空！';
@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
-                        validator: usernameValidator,
+                        validator: emailValidator,
                       ),
                     ),
                     Container(
