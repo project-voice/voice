@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:voice/api/Topic.dart';
 import 'package:voice/components/EnglishCorner/EnglishCornerContent.dart';
 import 'package:voice/model/TopicModel.dart';
@@ -48,7 +49,12 @@ class _EnglishCornerState extends State<EnglishCorner>
         _tabController = TabController(
             length: result['data']['topic_title'].length, vsync: this);
       });
-      print(result['message']);
+      Toast.show(
+        result['message'],
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
     } catch (err) {
       print(err);
     }

@@ -10,6 +10,7 @@ import 'package:toast/toast.dart';
 import 'package:voice/api/Topic.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:loading_dialog/loading_dialog.dart';
 
 class ReleaseTopic extends StatefulWidget {
   _ReleaseTopicState createState() => _ReleaseTopicState();
@@ -25,6 +26,13 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
   List<Widget> imageList = []; //显示复数图片的数组
   Map<File, Widget> imagefileTowidget = {}; //图片file与组件的映射，用于删除图片
   bool _isSelected = true; //是否可选择图片
+  LoadingDialog loading;
+  initLoading(BuildContext context) {
+    loading = LoadingDialog(
+      buildContext: context,
+      loadingMessage: '正在发布',
+    );
+  }
 
   void callCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera); //相机
@@ -244,6 +252,7 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
   void releaseHandler() async {
     // 发布
     try {
+      loading?.show();
       String content = _messageController.text;
       if (content == '') {
         Toast.show('内容不能为空', context,
@@ -269,6 +278,7 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
         files: images,
         content: content,
       );
+      loading?.hide();
       if (result['noerr'] == 0) {
         Future.delayed(Duration(seconds: 2)).then((value) {
           Navigator.of(context).pop();
@@ -288,6 +298,7 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
     setState(() {
       _imageSize = screenWidth / 3 - 32;
     });
+    initLoading(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('发布主题'),

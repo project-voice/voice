@@ -158,6 +158,16 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
 
   Future<void> _callCamera() async {
     File video = await ImagePicker.pickVideo(source: ImageSource.camera);
+    int size = await video.length();
+    if (size >= 8000000) {
+      Toast.show(
+        '上传视频大小不得超过8MB，请自行压缩',
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
+      return;
+    }
     setState(() {
       selectedVideo = video;
       _videoController = VideoPlayerController.file(selectedVideo)

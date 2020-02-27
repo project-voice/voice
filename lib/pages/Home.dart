@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Video/VideoAction.dart';
 import 'package:voice/model/UserModel.dart';
@@ -59,7 +60,12 @@ class _HomePageState extends State<HomePage>
           _isRequest = true;
         });
       }
-      print(result['message']);
+      Toast.show(
+        result['message'],
+        context,
+        duration: Toast.LENGTH_LONG,
+        gravity: Toast.CENTER,
+      );
     } catch (err) {
       print(err);
     }
@@ -139,16 +145,9 @@ class _HomePageState extends State<HomePage>
         builder: (context, videoData, child) {
           List<VideoModel> followList = videoData.followList;
           List<VideoModel> recommendList = videoData.recommendList;
-          return
-              // _isRequest
-              // ?
-              tabBarViewWidget([recommendList, followList]);
-          // : Container(
-          //     color: Colors.black,
-          //     child: Center(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   );
+          return _isRequest
+              ? tabBarViewWidget([recommendList, followList])
+              : Container(color: Colors.black);
         },
       ),
     );
