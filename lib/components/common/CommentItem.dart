@@ -7,6 +7,7 @@ class CommentItem extends StatelessWidget {
   CommentItem({this.commentData});
   @override
   Widget build(BuildContext context) {
+    num screenWidth = MediaQuery.of(context).size.width;
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       child: Column(
@@ -49,6 +50,7 @@ class CommentItem extends StatelessWidget {
             ],
           ),
           Container(
+            width: screenWidth - 100,
             margin: EdgeInsets.only(left: 40, top: 4),
             child: Text(commentData.commentContent),
           ),

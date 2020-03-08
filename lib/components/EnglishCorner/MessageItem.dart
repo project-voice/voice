@@ -72,48 +72,59 @@ class _MessageItemState extends State<MessageItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              ClipOval(
+                child: CachedNetworkImage(
+                  width: 40,
+                  height: 40,
+                  imageUrl: widget.content.userImage,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      widget.content.userName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      widget.content.createTime,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
           GestureDetector(
             onTap: jumpCommentDetailsPage,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ClipOval(
-                  child: CachedNetworkImage(
-                    width: 40,
-                    height: 40,
-                    imageUrl: widget.content.userImage,
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text(widget.content.userName,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text(widget.content.createTime,
-                          style: TextStyle(fontSize: 12, color: Colors.grey))
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 40, top: 4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(widget.content.topicContent.text,
+            child: Container(
+              margin: EdgeInsets.only(left: 40, top: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    widget.content.topicContent.text,
                     style: TextStyle(
                       fontSize: 16,
-                    )),
-                imageLayout(screenWidth)
-              ],
+                    ),
+                  ),
+                  imageLayout(screenWidth)
+                ],
+              ),
             ),
           ),
           tagLayout(),

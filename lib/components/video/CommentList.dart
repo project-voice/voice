@@ -119,75 +119,85 @@ class _CommentListState extends State<CommentList> {
         commentList.isEmpty ? '暂无评论' : '${maxCount.toString()}条评论';
 
     return Scaffold(
-        body: Container(
-      height: 500,
-      padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: 12),
-            child: Center(
-              child: Text(
-                titleText,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+      body: Container(
+        height: 500,
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(bottom: 12),
+              child: Center(
+                child: Text(
+                  titleText,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: commentList.isEmpty
-                ? Container(
-                    // height: 376,
-                    child: Center(
-                      child: Text(
-                        '这个视频还没有评论，快来评论呀！',
-                        style: TextStyle(fontSize: 14),
+            Expanded(
+              child: commentList.isEmpty
+                  ? Container(
+                      // height: 376,
+                      child: Center(
+                        child: Text(
+                          '这个视频还没有评论，快来评论呀！',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: 200,
+                      child: EasyRefresh(
+                        onLoad: onLoadHandler,
+                        onRefresh: onRefreshHandler,
+                        footer: MaterialFooter(),
+                        header: MaterialHeader(),
+                        child: ListView.builder(
+                          itemCount: commentList.length,
+                          itemBuilder: (context, index) {
+                            return CommentItem(
+                              commentData: commentList[index],
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  )
-                : Container(
-                    height: 200,
-                    child: EasyRefresh(
-                      onLoad: onLoadHandler,
-                      onRefresh: onRefreshHandler,
-                      footer: MaterialFooter(),
-                      header: MaterialHeader(),
-                      child: ListView.builder(
-                        itemCount: commentList.length,
-                        itemBuilder: (context, index) {
-                          return CommentItem(
-                            commentData: commentList[index],
-                          );
-                        },
-                      ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 0.5,
+                    color: Colors.grey[300],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              child: TextField(
+                controller: _commentController,
+                decoration: InputDecoration(
+                  hintText: '写下你的评论',
+                  hintStyle: TextStyle(
+                    fontSize: 16,
+                  ),
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                  suffix: GestureDetector(
+                    onTap: commentHandler,
+                    child: Text(
+                      '评论',
+                      style: TextStyle(color: Colors.red),
                     ),
                   ),
-          ),
-          Container(
-              decoration: BoxDecoration(
-                  border: Border(
-                      top: BorderSide(width: 0.5, color: Colors.grey[300])))),
-          Container(
-            child: TextField(
-              controller: _commentController,
-              decoration: InputDecoration(
-                hintText: '写下你的评论',
-                hintStyle: TextStyle(
-                  fontSize: 16,
-                ),
-                border: OutlineInputBorder(borderSide: BorderSide.none),
-                suffix: GestureDetector(
-                  onTap: commentHandler,
-                  child: Text('评论', style: TextStyle(color: Colors.red)),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }

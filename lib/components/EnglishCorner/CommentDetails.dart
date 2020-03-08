@@ -9,6 +9,7 @@ import 'package:voice/components/common/CommentItem.dart';
 import 'package:voice/model/CommentModel.dart';
 import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
+import 'package:voice/model/VideoModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserProvider.dart';
 
@@ -92,12 +93,16 @@ class _CommentDetailsState extends State<CommentDetails> {
         userid: userModel.userid,
         topicid: topicModel.topicid,
       );
+      print(result);
       if (result['noerr'] == 0) {
         topicProvider.updateSupport(
           topicModel.topicType,
           topicModel.topicid,
           result['data'],
         );
+        setState(() {
+          topicModel.support = Support.fromJson(result['data']);
+        });
       }
       print(result['message']);
     } catch (err) {

@@ -44,10 +44,14 @@ class _EnglishCornerContentState extends State<EnglishCornerContent> {
 
   Future<void> fetchRequestNext(int page, int count) async {
     try {
-      UserModel userModel =
-          Provider.of<UserProvider>(context, listen: false).userInfo;
-      TopicProvider topicProvider =
-          Provider.of<TopicProvider>(context, listen: false);
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      TopicProvider topicProvider = Provider.of<TopicProvider>(
+        context,
+        listen: false,
+      );
 
       List<String> tabs = topicProvider.topicTitle;
       String tab = tabs[widget.index];

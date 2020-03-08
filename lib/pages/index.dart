@@ -102,23 +102,24 @@ class _IndexPageState extends State<IndexPage> {
     });
 
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.orange[200],
-          shape: CircularNotchedRectangle(),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: tabBarList,
-          ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.orange[200],
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: tabBarList,
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 30,
-            color: Colors.white,
-          ),
-          onPressed: releaseTipicHandler,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.white,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: bottomTabBar[_selectedKey]['page']);
+        onPressed: releaseTipicHandler,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      body: bottomTabBar[_selectedKey]['page'],
+    );
   }
 }

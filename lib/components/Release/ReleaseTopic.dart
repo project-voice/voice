@@ -252,7 +252,6 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
   void releaseHandler() async {
     // 发布
     try {
-      loading?.show();
       String content = _messageController.text;
       if (content == '') {
         Toast.show('内容不能为空', context,
@@ -268,6 +267,7 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
         );
         return;
       }
+      loading?.show();
       UserModel userModel = Provider.of<UserProvider>(
         context,
         listen: false,
@@ -280,7 +280,8 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
       );
       loading?.hide();
       if (result['noerr'] == 0) {
-        Future.delayed(Duration(seconds: 2)).then((value) {
+        Future.delayed(Duration(seconds: 1)).then((value) {
+          Navigator.of(context).pop();
           Navigator.of(context).pop();
         });
       }
