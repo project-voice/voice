@@ -50,7 +50,7 @@ class _PasswordState extends State<Password> {
         Toast.show(
           '密码不能为空',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -59,7 +59,7 @@ class _PasswordState extends State<Password> {
         Toast.show(
           '密码格式不正确，必须包括：数字、字母大小写、特殊符号且长度大于8位。',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -81,7 +81,7 @@ class _PasswordState extends State<Password> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {

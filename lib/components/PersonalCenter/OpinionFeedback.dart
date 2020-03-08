@@ -34,7 +34,7 @@ class _OpinionFeedbackState extends State<OpinionFeedback> {
         Toast.show(
           '内容不能为空',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -50,7 +50,7 @@ class _OpinionFeedbackState extends State<OpinionFeedback> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {
@@ -86,7 +86,7 @@ class _OpinionFeedbackState extends State<OpinionFeedback> {
               maxLines: 7,
               maxLength: 150,
               decoration: InputDecoration(
-                fillColor: Colors.grey[200],
+                fillColor: Colors.grey[100],
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),

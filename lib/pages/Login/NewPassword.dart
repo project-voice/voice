@@ -37,7 +37,7 @@ class _NewPasswordState extends State<NewPassword> {
         Toast.show(
           '密码格式不正确，必须包括：数字、字母大小写、特殊符号且长度大于8位。',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -57,7 +57,7 @@ class _NewPasswordState extends State<NewPassword> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {

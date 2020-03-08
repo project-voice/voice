@@ -52,7 +52,7 @@ class _BirthdayState extends State<Birthday> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {

@@ -58,7 +58,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
         Toast.show(
           '描述不能为空',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -67,7 +67,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
         Toast.show(
           '您还未选择视频',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -87,7 +87,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {
@@ -163,7 +163,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
       Toast.show(
         '上传视频大小不得超过8MB，请自行压缩',
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
       return;
@@ -186,7 +186,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
       Toast.show(
         '上传视频大小不得超过8MB，请自行压缩',
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
       return;

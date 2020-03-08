@@ -254,15 +254,19 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
     try {
       String content = _messageController.text;
       if (content == '') {
-        Toast.show('内容不能为空', context,
-            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        Toast.show(
+          '内容不能为空',
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.CENTER,
+        );
         return;
       }
       if (_topic == '') {
         Toast.show(
           '必须要选择一个话题',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -285,11 +289,19 @@ class _ReleaseTopicState extends State<ReleaseTopic> {
           Navigator.of(context).pop();
         });
       }
-      Toast.show(result['message'], context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show(
+        result['message'],
+        context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.CENTER,
+      );
     } catch (err) {
-      Toast.show('发布失败', context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show(
+        '发布失败',
+        context,
+        duration: Toast.LENGTH_SHORT,
+        gravity: Toast.CENTER,
+      );
     }
   }
 

@@ -31,7 +31,7 @@ class _SystemMessageState extends State<SystemMessage> {
           Toast.show(
             result['message'],
             context,
-            duration: Toast.LENGTH_LONG,
+            duration: Toast.LENGTH_SHORT,
             gravity: Toast.CENTER,
           );
           return;

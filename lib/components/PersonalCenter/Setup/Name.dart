@@ -41,7 +41,7 @@ class _NameState extends State<Name> {
         Toast.show(
           '姓名不能为空',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -63,7 +63,7 @@ class _NameState extends State<Name> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     } catch (err) {

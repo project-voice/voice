@@ -96,7 +96,7 @@ class _EmailCheckState extends State<EmailCheck> {
       Toast.show(
         '邮箱格式不正确',
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
     }
@@ -110,7 +110,7 @@ class _EmailCheckState extends State<EmailCheck> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
       if (result['noerr'] == 0) {
@@ -147,7 +147,7 @@ class _EmailCheckState extends State<EmailCheck> {
         Toast.show(
           result['message'],
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
       } catch (err) {

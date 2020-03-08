@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:toast/toast.dart';
 import 'package:voice/api/User.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Video/CommentList.dart';
@@ -21,19 +22,31 @@ class VideoSideBarInfo extends StatelessWidget {
   Function followHandler(BuildContext context, int followid) {
     return () async {
       try {
-        UserModel userModel =
-            Provider.of<UserProvider>(context, listen: false).userInfo;
-        VideoProvider videoProvider =
-            Provider.of<VideoProvider>(context, listen: false);
+        UserModel userModel = Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).userInfo;
+        VideoProvider videoProvider = Provider.of<VideoProvider>(
+          context,
+          listen: false,
+        );
         if (userModel.userid == 0) {
           // 跳转到登录
           Navigator.of(context).pushNamed('login');
         } else {
-          var result =
-              await actionFollow(userid: userModel.userid, followid: followid);
+          var result = await actionFollow(
+            userid: userModel.userid,
+            followid: followid,
+          );
           if (result['noerr'] == 0) {
             videoProvider.updateFollow(followid);
           }
+          Toast.show(
+            result['message'],
+            context,
+            duration: Toast.LENGTH_SHORT,
+            gravity: Toast.CENTER,
+          );
         }
       } catch (err) {
         print(err);

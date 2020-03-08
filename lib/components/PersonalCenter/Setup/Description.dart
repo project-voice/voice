@@ -41,7 +41,7 @@ class _DescriptionState extends State<Description> {
         Toast.show(
           '简介不能为空',
           context,
-          duration: Toast.LENGTH_LONG,
+          duration: Toast.LENGTH_SHORT,
           gravity: Toast.CENTER,
         );
         return;
@@ -60,7 +60,7 @@ class _DescriptionState extends State<Description> {
       Toast.show(
         result['message'],
         context,
-        duration: Toast.LENGTH_LONG,
+        duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
       );
       setState(() {
