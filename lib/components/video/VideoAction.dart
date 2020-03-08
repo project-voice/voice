@@ -14,7 +14,6 @@ class VideoAction extends StatefulWidget {
 
 class VideoActionState extends State<VideoAction> {
   VideoPlayerController _videoController;
-  bool _isPlaying = false;
   @override
   void initState() {
     super.initState();
