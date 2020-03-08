@@ -87,7 +87,7 @@ class _IndexPageState extends State<IndexPage> {
       num index = bottomTabBar.indexOf(item);
       IconData icon = item['icon'];
       Color color =
-          index == this._selectedKey ? Colors.deepOrangeAccent : Colors.white;
+          index == this._selectedKey ? Color(0xFF36D1DC) : Colors.white;
       tabBarList.add(
         IconButton(
           icon: Icon(icon),
@@ -103,7 +103,7 @@ class _IndexPageState extends State<IndexPage> {
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        color: Colors.orange[200],
+        color: Color(0xFF5B86E5),
         shape: CircularNotchedRectangle(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

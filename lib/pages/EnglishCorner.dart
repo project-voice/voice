@@ -96,17 +96,20 @@ class _EnglishCornerState extends State<EnglishCorner>
         return TabBar(
           controller: _tabController,
           isScrollable: true,
+          indicatorColor: Colors.white,
           tabs: tabs
-              .map((tab) => Tab(
-                    child: Text(
-                      tab,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+              .map(
+                (tab) => Tab(
+                  child: Text(
+                    tab,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ))
+                  ),
+                ),
+              )
               .toList(),
         );
       },

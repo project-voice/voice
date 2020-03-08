@@ -112,6 +112,7 @@ class _MessageItemState extends State<MessageItem> {
           GestureDetector(
             onTap: jumpCommentDetailsPage,
             child: Container(
+              width: screenWidth,
               margin: EdgeInsets.only(left: 40, top: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +184,10 @@ class _MessageItemState extends State<MessageItem> {
             onTap: jumpTopicPage(tabs),
             child: Text(
               '#' + widget.content.topicType,
-              style: TextStyle(fontSize: 12, color: Colors.orange),
+              style: TextStyle(
+                fontSize: 12,
+                color: Color(0xFF5B86E5),
+              ),
             ),
           ),
         );
@@ -229,7 +233,7 @@ class _MessageItemState extends State<MessageItem> {
                   Icons.thumb_up,
                   size: 20,
                   color: widget.content.support.action
-                      ? Colors.orange[400]
+                      ? Color(0xFF5B86E5)
                       : Colors.grey[400],
                 ),
               ),

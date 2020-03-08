@@ -23,7 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: title,
-      theme: ThemeData(primarySwatch: Colors.orange),
+      theme: ThemeData(
+        primaryColor: Color(0xFF5B86E5),
+      ),
       initialRoute: '/', //名字为/的路由作为应用的home(首页)
       onGenerateRoute: (RouteSettings settings) {
         // 路由生成钩子

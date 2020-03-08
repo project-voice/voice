@@ -355,7 +355,7 @@ class _CommentDetailsState extends State<CommentDetails> {
                   Icons.thumb_up,
                   size: 20,
                   color: topicModel.support.action
-                      ? Colors.orange[400]
+                      ? Color(0xFF5B86E5)
                       : Colors.grey[400],
                 ),
               ),
