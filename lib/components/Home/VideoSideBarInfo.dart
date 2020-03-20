@@ -5,7 +5,7 @@ import 'package:share/share.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Follow.dart';
 import 'package:voice/api/Video.dart';
-import 'package:voice/components/Video/CommentList.dart';
+import 'package:voice/components/Home/CommentList.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/model/VideoModel.dart';
 import 'dart:math' as math;

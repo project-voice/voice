@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Video.dart';
-import 'package:voice/components/Video/VideoAction.dart';
+import 'package:voice/components/Home/VideoAction.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/model/VideoModel.dart';
 import 'package:voice/provider/UserProvider.dart';
