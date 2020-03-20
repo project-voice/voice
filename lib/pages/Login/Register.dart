@@ -81,7 +81,7 @@ class _RegisterState extends State<Register> {
     num screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('登录'),
+        title: Text('注册'),
         centerTitle: true,
       ),
       body: Container(

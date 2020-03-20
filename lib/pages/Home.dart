@@ -38,34 +38,41 @@ class _HomePageState extends State<HomePage>
 
   Future<void> fetchRequest() async {
     try {
-      UserProvider userProvider =
-          Provider.of<UserProvider>(context, listen: false);
+      UserProvider userProvider = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      );
       SharedPreferences prefs = await _prefs;
       String userInfoJson = prefs.getString('user');
       if (userInfoJson != null) {
         Map userInfo = jsonDecode(userInfoJson);
         await userProvider.updateUserInfo(userInfo);
       }
-      UserModel userModel =
-          Provider.of<UserProvider>(context, listen: false).userInfo;
-      VideoProvider videoProvider =
-          Provider.of<VideoProvider>(context, listen: false);
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      VideoProvider videoProvider = Provider.of<VideoProvider>(
+        context,
+        listen: false,
+      );
       var result = await getVideoListAll(
         userid: userModel.userid,
-        count: 10,
       );
+      print(result);
       if (result['noerr'] == 0) {
         videoProvider.initVideoList(result['data']);
         setState(() {
           _isRequest = true;
         });
+      } else {
+        Toast.show(
+          result['message'],
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.CENTER,
+        );
       }
-      Toast.show(
-        result['message'],
-        context,
-        duration: Toast.LENGTH_SHORT,
-        gravity: Toast.CENTER,
-      );
     } catch (err) {
       print(err);
     }

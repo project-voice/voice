@@ -25,7 +25,7 @@ Map routes = <String, WidgetBuilder>{
   'releaseTopic': (context) => ReleaseTopic(),
   'releaseVideo': (context) => ReleaseVideo(),
   //话题详情
-  'commentDetails': (context) => CommentDetails(),
+  // 'commentDetails': (context) => CommentDetails(),
   // 个人中心
   'followList': (context) => FollowList(),
   'opinionFeedback': (context) => OpinionFeedback(),

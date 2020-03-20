@@ -38,7 +38,7 @@ Future<dynamic> getTopicListAll({
   int count,
 }) async {
   Response response =
-      await _dio.get('$BASE_URL/topic/get-topic-all', queryParameters: {
+      await _dio.get('$BASE_URL/topic/get-topic-all-first', queryParameters: {
     'user_id': userid,
     'count': count,
   });

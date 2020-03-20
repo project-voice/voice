@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:voice/model/CommentModel.dart';
 
 class CommentItem extends StatelessWidget {
-  final Comment commentData;
+  final CommentModel commentData;
   CommentItem({this.commentData});
   @override
   Widget build(BuildContext context) {

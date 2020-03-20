@@ -8,36 +8,17 @@ Dio _dio = new Dio();
 // 获取第一页的接口
 Future<dynamic> getVideoListAll({
   int userid,
-  int count,
 }) async {
   try {
     Response respose =
         await _dio.get('$BASE_URL/video/get-video-all', queryParameters: {
       'user_id': userid,
-      'count': count,
     });
 
     return respose.data;
   } catch (err) {
     print('hahah' + err.toString());
   }
-}
-
-// 获取下一页的数据
-Future<dynamic> getNextVideoList({
-  int userid,
-  int count,
-  int page,
-  String type,
-}) async {
-  Response response = await _dio.get('$BASE_URL/video/get-video',
-      queryParameters: {
-        'user_id': userid,
-        'count': count,
-        'page': page,
-        'type': type
-      });
-  return response.data;
 }
 
 // 分享

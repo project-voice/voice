@@ -21,9 +21,8 @@ class CommentList extends StatefulWidget {
 }
 
 class _CommentListState extends State<CommentList> {
-  List<Comment> commentList = [];
+  List<CommentModel> commentList = [];
   TextEditingController _commentController;
-  int maxCount = 0;
   int count = 10;
   int page = 1;
   @override
@@ -42,11 +41,13 @@ class _CommentListState extends State<CommentList> {
         count: count,
       );
       if (result['noerr'] == 0) {
+        List<CommentModel> tempList = result['data']
+            .map((comment) {
+              return CommentModel.fromJson(comment);
+            })
+            .cast<CommentModel>()
+            .toList();
         setState(() {
-          CommentModel tempModel = CommentModel.fromJson(result['data']);
-          List<Comment> tempList = tempModel.commentList;
-          maxCount = tempModel.count;
-
           if (type == 'load') {
             commentList.addAll(tempList);
           } else {
@@ -54,7 +55,6 @@ class _CommentListState extends State<CommentList> {
           }
         });
       }
-      print(result['data']['list'].length);
     } catch (err) {
       print(err);
     }
@@ -63,10 +63,14 @@ class _CommentListState extends State<CommentList> {
   // 评论
   Future<void> commentHandler() async {
     try {
-      UserModel userModel =
-          Provider.of<UserProvider>(context, listen: false).userInfo;
-      VideoProvider videoProvider =
-          Provider.of<VideoProvider>(context, listen: false);
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      VideoProvider videoProvider = Provider.of<VideoProvider>(
+        context,
+        listen: false,
+      );
       if (userModel.userid == 0) {
         // 跳转到登录
         Navigator.of(context).pushNamed('login');
@@ -74,7 +78,6 @@ class _CommentListState extends State<CommentList> {
       }
       String commentContent = _commentController.text;
       var result = await actionComment(
-        releaseid: widget.videoData.userid,
         videoid: widget.videoData.videoid,
         userid: userModel.userid,
         commentContent: commentContent,
@@ -82,7 +85,7 @@ class _CommentListState extends State<CommentList> {
       if (result['noerr'] == 0) {
         page = 1;
         // 重新获取评论列表
-        featchRequest(page++, count, 'load');
+        featchRequest(page++, count, 'refresh');
         // 更新videoProvider中的数据
         videoProvider.updateComment(
           widget.type,
@@ -92,7 +95,6 @@ class _CommentListState extends State<CommentList> {
       }
       _commentController.clear();
       FocusScope.of(context).requestFocus(FocusNode());
-      print(result);
     } catch (err) {
       print(err);
     }
@@ -115,9 +117,6 @@ class _CommentListState extends State<CommentList> {
 
   @override
   Widget build(BuildContext context) {
-    String titleText =
-        commentList.isEmpty ? '暂无评论' : '${maxCount.toString()}条评论';
-
     return Scaffold(
       body: Container(
         height: 500,
@@ -129,7 +128,7 @@ class _CommentListState extends State<CommentList> {
               margin: EdgeInsets.only(bottom: 12),
               child: Center(
                 child: Text(
-                  titleText,
+                  '评论列表',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
