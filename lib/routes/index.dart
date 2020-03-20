@@ -9,9 +9,8 @@ import 'package:voice/pages/Login/Login.dart';
 import 'package:voice/pages/Login/EmailCheck.dart';
 import 'package:voice/pages/Login/Register.dart';
 import 'package:voice/pages/Login/NewPassword.dart';
-import 'package:voice/components/Release/ReleaseTopic.dart';
-import 'package:voice/components/Release/ReleaseVideo.dart';
-import 'package:voice/components/EnglishCorner/CommentDetails.dart';
+import 'package:voice/pages/EnglishCorner/ReleaseTopic.dart';
+import 'package:voice/pages/Home/ReleaseVideo.dart';
 
 Map routes = <String, WidgetBuilder>{
   // 首页

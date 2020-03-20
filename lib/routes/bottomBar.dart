@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:voice/pages/Home.dart';
-import 'package:voice/pages/EnglishCorner.dart';
-import 'package:voice/pages/FluentSpeak.dart';
+import 'package:voice/pages/Home/Home.dart';
+import 'package:voice/pages/EnglishCorner/EnglishCorner.dart';
+import 'package:voice/pages/FluentSpeak/FluentSpeak.dart';
 import 'package:voice/pages/PersonalCenter/PersonalCenter.dart';
 
 List bottomTabBar = [
