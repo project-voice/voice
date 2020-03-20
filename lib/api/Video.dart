@@ -80,14 +80,14 @@ Future<dynamic> getCommentList({
 Future<dynamic> releaseVideo({
   int userid,
   String videoDescription,
-  File file,
+  File video,
+  File image,
 }) async {
-  // _dio.options.connectTimeout = 50000;
-  // _dio.options.receiveTimeout = 50000;
   FormData formData = FormData.fromMap({
     'user_id': userid,
     'video_description': videoDescription,
-    'video': await MultipartFile.fromFile(file.path),
+    'video': await MultipartFile.fromFile(video.path),
+    'image': await MultipartFile.fromFile(image.path),
   });
   Response response = await _dio.post('$BASE_URL/video/release-video',
       data: formData, onSendProgress: (int send, int total) {

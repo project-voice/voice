@@ -82,7 +82,8 @@ Future<dynamic> actionFollow({
   int userid,
   int followid,
 }) async {
-  Response response = await _dio.get('$BASE_URL/user/follow', queryParameters: {
+  Response response =
+      await _dio.get('$BASE_URL/follow/follow', queryParameters: {
     'user_id': userid,
     'follow_id': followid,
   });
@@ -94,7 +95,7 @@ Future<dynamic> getFollowList({
   int userid,
 }) async {
   Response response =
-      await _dio.get('$BASE_URL/user/follow-list', queryParameters: {
+      await _dio.get('$BASE_URL/follow/follow-list', queryParameters: {
     'user_id': userid,
   });
   return response.data;
@@ -106,7 +107,7 @@ Future<dynamic> cancelFollow({
   int followid,
 }) async {
   Response response =
-      await _dio.get('$BASE_URL/user/cancel-follow', queryParameters: {
+      await _dio.get('$BASE_URL/follow/cancel-follow', queryParameters: {
     'user_id': userid,
     'follow_id': followid,
   });

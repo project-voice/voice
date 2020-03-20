@@ -21,6 +21,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
   File selectedVideo;
   bool isSelected = false;
   bool isPlaying = false;
+  File image;
   @override
   void initState() {
     super.initState();
@@ -72,17 +73,25 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
         );
         return;
       }
+      if (image == null) {
+        Toast.show(
+          '您还未选择视频展示图',
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.CENTER,
+        );
+        return;
+      }
       loading?.show();
       var result = await releaseVideo(
         userid: userModel.userid,
         videoDescription: description,
-        file: file,
+        video: file,
+        image: image,
       );
       loading?.hide();
       if (result['noerr'] == 0) {
-        Future.delayed(Duration(seconds: 1)).then((value) {
-          Navigator.of(context).pop();
-        });
+        Navigator.of(context).pop();
       }
       Toast.show(
         result['message'],
@@ -95,7 +104,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
     }
   }
 
-  void showBottomSheet() {
+  void showBottomSheetVideo() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -119,7 +128,7 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
                       onTap: () {
                         //调用相机
                         Navigator.of(context).pop();
-                        _callCamera();
+                        _callCameraVideo();
                       },
                     ),
                     ListTile(
@@ -156,7 +165,79 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
         });
   }
 
-  Future<void> _callCamera() async {
+  void showBottomSheetImage() {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      title: Center(
+                        child: Text(
+                          '请选择',
+                          style: TextStyle(
+                            color: Colors.black26,
+                          ),
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      title: Center(
+                        child: Text("拍照"),
+                      ),
+                      onTap: () {
+                        //调用相机
+                        Navigator.of(context).pop();
+                        _callCameraImage();
+                      },
+                    ),
+                    ListTile(
+                      title: Center(
+                        child: Text("从本地相册选择"),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        _pickImage();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.black26,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: ListTile(
+                  title: Center(
+                    child: Text(
+                      "取消",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  Future<void> _callCameraImage() async {
+    File _image = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      image = _image;
+    });
+  }
+
+  Future<void> _callCameraVideo() async {
     File video = await ImagePicker.pickVideo(source: ImageSource.camera);
     int size = await video.length();
     if (size >= 8000000) {
@@ -179,12 +260,19 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
     });
   }
 
+  Future<void> _pickImage() async {
+    File _image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = _image;
+    });
+  }
+
   Future<void> _pickVideo() async {
     File video = await ImagePicker.pickVideo(source: ImageSource.gallery);
     int size = await video.length();
     if (size >= 8000000) {
       Toast.show(
-        '上传视频大小不得超过8MB，请自行压缩',
+        '上传视频大小不得超过8MB，请��行压缩',
         context,
         duration: Toast.LENGTH_SHORT,
         gravity: Toast.CENTER,
@@ -204,7 +292,11 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
   }
 
   void selectVideo() {
-    showBottomSheet();
+    showBottomSheetVideo();
+  }
+
+  void selectImage() {
+    showBottomSheetImage();
   }
 
   @override
@@ -231,28 +323,81 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
       body: Container(
         width: screenWidth,
         padding: EdgeInsets.all(16),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _textEditingController,
-              maxLength: 50,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: '写下你的描述',
-                hintStyle: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[400],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              TextField(
+                controller: _textEditingController,
+                maxLength: 50,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: '写下你的描述',
+                  hintStyle: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey[400],
+                  ),
+                  border: InputBorder.none,
                 ),
-                border: InputBorder.none,
               ),
-            ),
-            Container(
-              width: screenWidth,
-              height: 0.5,
-              color: Colors.grey[300],
-            ),
-            SingleChildScrollView(
-              child: Container(
+              Container(
+                width: screenWidth,
+                height: 0.5,
+                color: Colors.grey[300],
+              ),
+              Container(
+                height: 200,
+                width: screenWidth,
+                margin: EdgeInsets.only(top: 20),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: image == null
+                    ? FlatButton(
+                        onPressed: selectImage,
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 50,
+                          color: Colors.black26,
+                        ),
+                      )
+                    : Stack(
+                        children: <Widget>[
+                          Image.file(
+                            image,
+                            width: screenWidth,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  image = null;
+                                });
+                              },
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.clear,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+              ),
+              Container(
                 height: 250,
                 width: screenWidth,
                 margin: EdgeInsets.only(top: 20),
@@ -305,14 +450,9 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
                                 width: 24,
                                 height: 24,
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey[400],
-                                        blurRadius: 4,
-                                      )
-                                    ]),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                                 child: Center(
                                   child: Icon(
                                     Icons.clear,
@@ -333,8 +473,8 @@ class _ReleaseVideoState extends State<ReleaseVideo> {
                         ),
                       ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
