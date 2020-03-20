@@ -53,6 +53,7 @@ Future<dynamic> login({
   FormData formData = FormData.fromMap({
     'user_password': userPassword,
     'user_email': userEmail,
+    'platform': 'mobile'
   });
   Response response = await _dio.post('$BASE_URL/user/login', data: formData);
   return response.data;
@@ -72,8 +73,7 @@ Future<dynamic> updateUserInfo({
     'key': key,
     'value': value,
   });
-  Response response =
-      await _dio.post('$BASE_URL/user/update-info', data: formData);
+  Response response = await _dio.post('$BASE_URL/user/update', data: formData);
   return response.data;
 }
 
@@ -82,11 +82,13 @@ Future<dynamic> actionFollow({
   int userid,
   int followid,
 }) async {
-  Response response =
-      await _dio.get('$BASE_URL/follow/follow', queryParameters: {
-    'user_id': userid,
-    'follow_id': followid,
-  });
+  Response response = await _dio.get(
+    '$BASE_URL/follow/follow',
+    queryParameters: {
+      'user_id': userid,
+      'follow_id': followid,
+    },
+  );
   return response.data;
 }
 
@@ -94,10 +96,12 @@ Future<dynamic> actionFollow({
 Future<dynamic> getFollowList({
   int userid,
 }) async {
-  Response response =
-      await _dio.get('$BASE_URL/follow/follow-list', queryParameters: {
-    'user_id': userid,
-  });
+  Response response = await _dio.get(
+    '$BASE_URL/follow/follow-list',
+    queryParameters: {
+      'user_id': userid,
+    },
+  );
   return response.data;
 }
 
@@ -106,10 +110,12 @@ Future<dynamic> cancelFollow({
   int userid,
   int followid,
 }) async {
-  Response response =
-      await _dio.get('$BASE_URL/follow/cancel-follow', queryParameters: {
-    'user_id': userid,
-    'follow_id': followid,
-  });
+  Response response = await _dio.get(
+    '$BASE_URL/follow/cancel-follow',
+    queryParameters: {
+      'user_id': userid,
+      'follow_id': followid,
+    },
+  );
   return response.data;
 }

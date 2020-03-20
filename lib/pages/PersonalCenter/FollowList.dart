@@ -34,7 +34,6 @@ class _FollowListState extends State<FollowList> {
               .toList();
         });
       }
-      print(result['message']);
     } catch (err) {
       print(err);
     }

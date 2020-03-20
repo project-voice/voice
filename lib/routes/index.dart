@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:voice/components/PersonalCenter/FollowList.dart';
-import 'package:voice/components/PersonalCenter/OpinionFeedback.dart';
-import 'package:voice/components/PersonalCenter/ReleaseList.dart';
-import 'package:voice/components/PersonalCenter/Setup.dart';
-import 'package:voice/components/PersonalCenter/SystemMessage.dart';
+import 'package:voice/pages/PersonalCenter/FollowList.dart';
+import 'package:voice/pages/PersonalCenter/OpinionFeedback.dart';
+import 'package:voice/pages/PersonalCenter/PersonalPage.dart';
+import 'package:voice/pages/PersonalCenter/Setup.dart';
+import 'package:voice/pages/PersonalCenter/SystemMessage.dart';
 import 'package:voice/pages/index.dart';
 import 'package:voice/pages/Login/Login.dart';
 import 'package:voice/pages/Login/EmailCheck.dart';
@@ -29,7 +29,7 @@ Map routes = <String, WidgetBuilder>{
   // 个人中心
   'followList': (context) => FollowList(),
   'opinionFeedback': (context) => OpinionFeedback(),
-  'releaseList': (context) => ReleaseList(),
+  'releaseList': (context) => PersonalPage(),
   'setup': (context) => Setup(),
   'systemMessage': (context) => SystemMessage(),
 };

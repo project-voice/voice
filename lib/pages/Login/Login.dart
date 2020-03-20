@@ -67,7 +67,7 @@ class _LoginState extends State<Login> {
         if (result['noerr'] == 0) {
           // 登录成功
           await userProvider.updateUserInfo(result['data']);
-          Future.delayed(Duration(seconds: 2)).then((value) {
+          Future.delayed(Duration(seconds: 1)).then((value) {
             Navigator.of(context).pop();
           });
         }

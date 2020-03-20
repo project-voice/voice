@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReleaseList extends StatelessWidget {
+class PersonalPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

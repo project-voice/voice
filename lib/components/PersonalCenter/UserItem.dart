@@ -23,9 +23,7 @@ class UserItem extends StatelessWidget {
           followid: userModel.userid,
         );
         if (result['noerr'] == 0) {
-          Future.delayed(Duration(seconds: 2)).then((value) {
-            refreshCallback();
-          });
+          refreshCallback();
         }
         Toast.show(
           result['message'],

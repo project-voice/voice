@@ -90,78 +90,79 @@ class _RegisterState extends State<Register> {
         child: Column(
           children: <Widget>[
             Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: TextFormField(
-                        controller: _usernameController,
-                        decoration: InputDecoration(
-                          labelText: '用户名',
-                          hintText: '请输入用户名',
-                          hintStyle: TextStyle(
-                            fontSize: 12,
-                          ),
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: '用户名',
+                        hintText: '请输入用户名',
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                        ),
+                        prefixIcon: Icon(Icons.person),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      validator: usernameValidator,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    margin: EdgeInsets.only(top: 8),
+                    child: TextFormField(
+                      controller: _passwordController,
+                      obscureText: hidePassword,
+                      decoration: InputDecoration(
+                        labelText: '密码',
+                        hintText: '包括：数字、字母大小写、特殊符号且长度大于8位',
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                        ),
+                        prefixIcon: Icon(Icons.lock),
+                        suffix: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              hidePassword = !hidePassword;
+                            });
+                          },
+                          child: Icon(
+                            Icons.remove_red_eye,
+                            size: 20,
+                            color: hidePassword ? Colors.grey : Colors.orange,
                           ),
                         ),
-                        validator: usernameValidator,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
                       ),
+                      validator: passwordValidator,
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                      margin: EdgeInsets.only(top: 8),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        obscureText: hidePassword,
-                        decoration: InputDecoration(
-                          labelText: '密码',
-                          hintText: '包括：数字、字母大小写、特殊符号且长度大于8位',
-                          hintStyle: TextStyle(
-                            fontSize: 12,
-                          ),
-                          prefixIcon: Icon(Icons.lock),
-                          suffix: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                hidePassword = !hidePassword;
-                              });
-                            },
-                            child: Icon(
-                              Icons.remove_red_eye,
-                              size: 20,
-                              color: hidePassword ? Colors.grey : Colors.orange,
-                            ),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.only(top: 8),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: RaisedButton(
+                            padding: EdgeInsets.all(15.0),
+                            child: Text("登录"),
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            onPressed: registerAction,
                           ),
                         ),
-                        validator: passwordValidator,
-                      ),
+                      ],
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      margin: EdgeInsets.only(top: 8),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              padding: EdgeInsets.all(15.0),
-                              child: Text("登录"),
-                              color: Theme.of(context).primaryColor,
-                              textColor: Colors.white,
-                              onPressed: registerAction,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                )),
+                  )
+                ],
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(top: 12),
               padding: EdgeInsets.symmetric(horizontal: 16),
