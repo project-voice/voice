@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
-import 'package:voice/api/User.dart';
+import 'package:voice/api/Email.dart';
 import 'package:voice/model/UserModel.dart';
 
 class EmailCheck extends StatefulWidget {

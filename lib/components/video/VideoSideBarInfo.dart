@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:toast/toast.dart';
-import 'package:voice/api/User.dart';
+import 'package:voice/api/Follow.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Video/CommentList.dart';
 import 'package:voice/model/UserModel.dart';
