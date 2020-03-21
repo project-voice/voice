@@ -39,6 +39,11 @@ class _StageItemState extends State<StageItem> {
       );
       return;
     }
+    Application.router.navigateTo(
+      context,
+      '${Routes.questionDetalsPage}?stageNum=${widget.stageModel.stageNum}',
+      transition: TransitionType.native,
+    );
   }
 
   @override
