@@ -1,11 +1,16 @@
 import 'dart:async';
 
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Email.dart';
 import 'package:voice/model/UserModel.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class EmailCheck extends StatefulWidget {
+  final String type;
+  EmailCheck({Key key, this.type}) : super(key: key);
   _EmailCheckState createState() => _EmailCheckState();
 }
 
@@ -17,12 +22,12 @@ class _EmailCheckState extends State<EmailCheck> {
     'register': {
       'title': '注册',
       'subTitle': '请输入您的邮箱，用于注册您的账号',
-      'nextPage': 'register'
+      'nextPage': Routes.registerPage,
     },
     'forgetPassword': {
       'title': '找回密码',
       'subTitle': '请输入您的邮箱，用于找回您的密码',
-      'nextPage': 'newPassword'
+      'nextPage': Routes.newpasswordPage,
     },
   };
   bool isSend = false;
@@ -103,8 +108,7 @@ class _EmailCheckState extends State<EmailCheck> {
   // 调邮箱发送验证码请求
   Future<bool> sendEmail() async {
     try {
-      var arguments = ModalRoute.of(context).settings.arguments;
-      var result = await emailIdentity(userEmail: _email, type: arguments);
+      var result = await emailIdentity(userEmail: _email, type: widget.type);
       Toast.show(
         result['message'],
         context,
@@ -136,10 +140,11 @@ class _EmailCheckState extends State<EmailCheck> {
         );
         if (result['noerr'] == 0) {
           Future.delayed(Duration(seconds: 1)).then((value) {
-            Navigator.of(context).pushNamed(nextPage, arguments: {
-              'email': _email,
-              'userid': userModel?.userid,
-            });
+            Application.router.navigateTo(
+              context,
+              '$nextPage?email=$_email&userId=${userModel?.userid}',
+              transition: TransitionType.native,
+            );
           });
         }
         Toast.show(
@@ -157,10 +162,9 @@ class _EmailCheckState extends State<EmailCheck> {
   @override
   Widget build(BuildContext context) {
     num screenWidth = MediaQuery.of(context).size.width;
-    var arguments = ModalRoute.of(context).settings.arguments;
-    String title = titleInfo[arguments]['title'];
-    String subTitle = titleInfo[arguments]['subTitle'];
-    String nextPage = titleInfo[arguments]['nextPage'];
+    String title = titleInfo[widget.type]['title'];
+    String subTitle = titleInfo[widget.type]['subTitle'];
+    String nextPage = titleInfo[widget.type]['nextPage'];
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

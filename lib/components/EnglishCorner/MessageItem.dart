@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,8 @@ import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class MessageItem extends StatefulWidget {
   final TopicModel content;
@@ -46,7 +49,11 @@ class _MessageItemState extends State<MessageItem> {
       TopicProvider topicProvider =
           Provider.of<TopicProvider>(context, listen: false);
       if (userModel.userid == 0) {
-        Navigator.of(context).pushNamed('login');
+        Application.router.navigateTo(
+          context,
+          Routes.loginPage,
+          transition: TransitionType.native,
+        );
         return;
       }
       var result = await support(

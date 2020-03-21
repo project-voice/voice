@@ -3,6 +3,8 @@ import 'package:toast/toast.dart';
 import 'package:voice/api/User.dart';
 
 class NewPassword extends StatefulWidget {
+  final int userId;
+  NewPassword({Key key, this.userId}) : super(key: key);
   _NewPasswordState createState() => _NewPasswordState();
 }
 
@@ -42,9 +44,8 @@ class _NewPasswordState extends State<NewPassword> {
         );
         return;
       }
-      Map arguments = ModalRoute.of(context).settings.arguments;
       var result = await updateUserInfo(
-        userid: arguments['userid'],
+        userid: widget.userId,
         key: 'user_password',
         value: password,
       );

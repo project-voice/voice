@@ -1,7 +1,11 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:voice/constants/index.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 import 'package:voice/routes/bottomBar.dart';
 
 class IndexPage extends StatefulWidget {
@@ -14,23 +18,11 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
   num _selectedKey = 0;
-  List releaseList = [
-    {
-      'text': '发布视频',
-      'iconUrl': 'assets/images/release-video.jpg',
-      'page': 'releaseVideo'
-    },
-    {
-      'text': '发布主题',
-      'iconUrl': 'assets/images/release-topic.png',
-      'page': 'releaseTopic'
-    },
-  ];
   void releaseTipicHandler() {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          List<Widget> releaseWidgets = releaseList.map((release) {
+          List<Widget> releaseWidgets = releasePages.map((release) {
             return Column(
               children: <Widget>[
                 GestureDetector(
@@ -40,11 +32,19 @@ class _IndexPageState extends State<IndexPage> {
                       listen: false,
                     ).userInfo;
                     if (userModel.userid == 0) {
-                      Navigator.of(context).pushNamed('login');
+                      Application.router.navigateTo(
+                        context,
+                        Routes.loginPage,
+                        transition: TransitionType.native,
+                      );
                       return;
                     }
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed(release['page']);
+                    Application.router.navigateTo(
+                      context,
+                      release['page'],
+                      transition: TransitionType.native,
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(

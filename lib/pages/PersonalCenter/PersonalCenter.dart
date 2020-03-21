@@ -1,9 +1,12 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voice/components/PersonalCenter/PersonalInfo.dart';
 import 'package:voice/constants/index.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class PersonalCenter extends StatefulWidget {
   _PersonalCenterState createState() => _PersonalCenterState();
@@ -50,10 +53,18 @@ class _PersonalCenterState extends State<PersonalCenter> {
           onTap: () {
             if (isLogin) {
               // 跳转到相应页面
-              Navigator.of(context).pushNamed(item['page']);
+              Application.router.navigateTo(
+                context,
+                item['page'],
+                transition: TransitionType.native,
+              );
             } else {
               //跳转到登录页面
-              Navigator.of(context).pushNamed('login');
+              Application.router.navigateTo(
+                context,
+                Routes.loginPage,
+                transition: TransitionType.native,
+              );
             }
           },
           child: Container(

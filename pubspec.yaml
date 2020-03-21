@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^0.5.6+1
   flutter_cupertino_date_picker: ^1.0.12
   loading_dialog: ^0.0.1+1
+  fluro: ^1.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

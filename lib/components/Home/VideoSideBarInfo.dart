@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,8 @@ import 'dart:math' as math;
 
 import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class VideoSideBarInfo extends StatelessWidget {
   final VideoModel videoInfoData;
@@ -33,7 +36,11 @@ class VideoSideBarInfo extends StatelessWidget {
         );
         if (userModel.userid == 0) {
           // 跳转到登录
-          Navigator.of(context).pushNamed('login');
+          Application.router.navigateTo(
+            context,
+            Routes.loginPage,
+            transition: TransitionType.native,
+          );
         } else {
           var result = await actionFollow(
             userid: userModel.userid,
@@ -64,7 +71,11 @@ class VideoSideBarInfo extends StatelessWidget {
             Provider.of<VideoProvider>(context, listen: false);
         if (userModel.userid == 0) {
           // 跳转到登录
-          Navigator.of(context).pushNamed('login');
+          Application.router.navigateTo(
+            context,
+            Routes.loginPage,
+            transition: TransitionType.native,
+          );
           return;
         }
         var result = await support(

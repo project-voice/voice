@@ -3,6 +3,8 @@ import 'package:toast/toast.dart';
 import 'package:voice/api/User.dart';
 
 class Register extends StatefulWidget {
+  final String email;
+  Register({Key key, this.email}) : super(key: key);
   _RegisterState createState() => _RegisterState();
 }
 
@@ -52,11 +54,10 @@ class _RegisterState extends State<Register> {
   Future<void> registerAction() async {
     if ((_formKey.currentState as FormState).validate()) {
       try {
-        Map arguments = ModalRoute.of(context).settings.arguments;
         var result = await register(
           userName: _usernameController.text,
           userPassword: _passwordController.text,
-          userEmail: arguments['email'],
+          userEmail: widget.email,
         );
         if (result['noerr'] == 0) {
           Future.delayed(Duration(seconds: 1)).then((value) {
@@ -151,44 +152,13 @@ class _RegisterState extends State<Register> {
                         Expanded(
                           child: RaisedButton(
                             padding: EdgeInsets.all(15.0),
-                            child: Text("登录"),
+                            child: Text("注册"),
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             onPressed: registerAction,
                           ),
                         ),
                       ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('emailCheck', arguments: 'register');
-                    },
-                    child: Text(
-                      '注册',
-                      style: TextStyle(color: Colors.orange),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('emailCheck', arguments: 'forgetPassword');
-                    },
-                    child: Text(
-                      '找回密码',
-                      style: TextStyle(
-                        color: Colors.red,
-                      ),
                     ),
                   )
                 ],

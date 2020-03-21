@@ -5,7 +5,8 @@ import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/UserProvider.dart';
 
 class QuestionDetails extends StatefulWidget {
-  QuestionDetails({Key key}) : super(key: key);
+  final int stageNum;
+  QuestionDetails({Key key, this.stageNum}) : super(key: key);
   _QuestionDetailsStage createState() => _QuestionDetailsStage();
 }
 
@@ -18,14 +19,13 @@ class _QuestionDetailsStage extends State<QuestionDetails> {
 
   Future<void> fetchRequest() async {
     try {
-      int stageNum = ModalRoute.of(context).settings.arguments;
       UserModel userModel = Provider.of<UserProvider>(
         context,
         listen: false,
       ).userInfo;
       var result = await getQuestionList(
         userId: userModel.userid,
-        stageNum: stageNum,
+        stageNum: widget.stageNum,
       );
       print(result);
     } catch (err) {

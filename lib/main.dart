@@ -1,8 +1,11 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:voice/pages/index.dart';
 import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserProvider.dart';
 import 'package:voice/provider/VideoProvider.dart';
-import 'package:voice/routes/index.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -12,30 +15,25 @@ void main() {
       ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
       ChangeNotifierProvider<VideoProvider>(create: (_) => VideoProvider())
     ],
-    child: MyApp(title: '语声'),
+    child: MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final String title;
-  MyApp({Key key, this.title}) : super(key: key);
+  MyApp() {
+    final router = Router();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: title,
+      title: '语声',
       theme: ThemeData(
         primaryColor: Color(0xFF5B86E5),
       ),
-      initialRoute: '/', //名字为/的路由作为应用的home(首页)
-      onGenerateRoute: (RouteSettings settings) {
-        // 路由生成钩子
-        return MaterialPageRoute(builder: (context) {
-          String routeName = settings.name;
-          print(routeName);
-          return;
-        });
-      },
-      routes: routes,
+      onGenerateRoute: Application.router.generator,
+      home: IndexPage(),
     );
   }
 }

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/model/StageModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class StageItem extends StatefulWidget {
   final StageModel stageModel;
@@ -20,7 +23,11 @@ class _StageItemState extends State<StageItem> {
       listen: false,
     ).userInfo;
     if (userModel.userid == 0) {
-      Navigator.of(context).pushNamed('login');
+      Application.router.navigateTo(
+        context,
+        Routes.loginPage,
+        transition: TransitionType.native,
+      );
       return;
     }
     if (widget.stageModel.lock) {
@@ -32,10 +39,6 @@ class _StageItemState extends State<StageItem> {
       );
       return;
     }
-    Navigator.of(context).pushNamed(
-      'questionDetails',
-      arguments: widget.stageModel.stageNum,
-    );
   }
 
   @override

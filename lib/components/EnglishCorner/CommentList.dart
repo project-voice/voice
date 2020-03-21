@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/material_footer.dart';
@@ -10,6 +11,8 @@ import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class CommentList extends StatefulWidget {
   final TopicModel topicModel;
@@ -71,7 +74,11 @@ class _CommentListState extends State<CommentList> {
       );
       if (userModel.userid == 0) {
         // 跳转到登录
-        Navigator.of(context).pushNamed('login');
+        Application.router.navigateTo(
+          context,
+          Routes.loginPage,
+          transition: TransitionType.native,
+        );
         return;
       }
       String commentContent = _commentController.text;

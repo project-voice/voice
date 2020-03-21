@@ -1,8 +1,11 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/User.dart';
 import 'package:voice/provider/UserProvider.dart';
+import 'package:voice/routes/Application.dart';
+import 'package:voice/routes/Routes.dart';
 
 class Login extends StatefulWidget {
   _LoginState createState() => _LoginState();
@@ -177,8 +180,11 @@ class _LoginState extends State<Login> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('emailCheck', arguments: 'register');
+                      Application.router.navigateTo(
+                        context,
+                        '${Routes.emailPage}?type=register',
+                        transition: TransitionType.native,
+                      );
                     },
                     child: Text(
                       '注册',
@@ -187,8 +193,11 @@ class _LoginState extends State<Login> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('emailCheck', arguments: 'forgetPassword');
+                      Application.router.navigateTo(
+                        context,
+                        '${Routes.emailPage}?type=forgetPassword',
+                        transition: TransitionType.native,
+                      );
                     },
                     child: Text(
                       '找回密码',
