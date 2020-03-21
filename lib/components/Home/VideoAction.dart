@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-import 'package:voice/components/video/VideoSideBarInfo.dart';
+import 'package:voice/components/Home/VideoSideBarInfo.dart';
 import 'package:voice/model/VideoModel.dart';
 
 class VideoAction extends StatefulWidget {

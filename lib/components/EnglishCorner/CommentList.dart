@@ -6,17 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:voice/api/Comment.dart';
 import 'package:voice/components/common/CommentItem.dart';
 import 'package:voice/model/CommentModel.dart';
+import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
-import 'package:voice/model/VideoModel.dart';
+import 'package:voice/provider/TopicProvider.dart';
 import 'package:voice/provider/UserProvider.dart';
-import 'package:voice/provider/VideoProvider.dart';
 
 class CommentList extends StatefulWidget {
-  final VideoModel videoData;
-  final String type;
-  final int index;
-  CommentList({Key key, this.videoData, this.type, this.index})
-      : super(key: key);
+  final TopicModel topicModel;
+  CommentList({Key key, this.topicModel}) : super(key: key);
   _CommentListState createState() => _CommentListState();
 }
 
@@ -36,10 +33,10 @@ class _CommentListState extends State<CommentList> {
   Future<void> featchRequest(int page, int count, String type) async {
     try {
       var result = await getCommentList(
-        targetId: widget.videoData.videoid,
+        targetId: widget.topicModel.topicid,
         page: page,
         count: count,
-        type: 0,
+        type: 1,
       );
       if (result['noerr'] == 0) {
         List<CommentModel> tempList = result['data']
@@ -68,7 +65,7 @@ class _CommentListState extends State<CommentList> {
         context,
         listen: false,
       ).userInfo;
-      VideoProvider videoProvider = Provider.of<VideoProvider>(
+      TopicProvider topicProvider = Provider.of<TopicProvider>(
         context,
         listen: false,
       );
@@ -79,20 +76,20 @@ class _CommentListState extends State<CommentList> {
       }
       String commentContent = _commentController.text;
       var result = await comment(
-        targetId: widget.videoData.videoid,
+        targetId: widget.topicModel.topicid,
         userid: userModel.userid,
         commentContent: commentContent,
-        type: 0,
+        type: 1,
       );
       if (result['noerr'] == 0) {
         page = 1;
         // 重新获取评论列表
         featchRequest(page++, count, 'refresh');
         // 更新videoProvider中的数据
-        videoProvider.updateComment(
-          widget.type,
-          widget.index,
-          widget.videoData.comment + 1,
+        topicProvider.updateComment(
+          widget.topicModel.topicType,
+          widget.topicModel.topicid,
+          widget.topicModel.comment + 1,
         );
       }
       _commentController.clear();

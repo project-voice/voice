@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:toast/toast.dart';
 import 'package:voice/api/Follow.dart';
+import 'package:voice/api/Support.dart';
 import 'package:voice/api/Video.dart';
 import 'package:voice/components/Home/CommentList.dart';
 import 'package:voice/model/UserModel.dart';
@@ -66,8 +67,11 @@ class VideoSideBarInfo extends StatelessWidget {
           Navigator.of(context).pushNamed('login');
           return;
         }
-        var result =
-            await actionSupport(userid: userModel.userid, videoid: videoid);
+        var result = await support(
+          userid: userModel.userid,
+          targetId: videoid,
+          type: 0,
+        );
         if (result['noerr'] == 0) {
           videoProvider.updateSupport(type, index, result['data']);
         } else {
@@ -239,7 +243,6 @@ class VideoSideBarInfo extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                print('评论');
                 // 弹出评论列表
                 showModalBottomSheet(
                     context: context,

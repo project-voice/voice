@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
+import 'package:voice/api/Support.dart';
 import 'package:voice/api/Topic.dart';
+import 'package:voice/components/EnglishCorner/CommentList.dart';
 import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
 import 'package:voice/provider/TopicProvider.dart';
@@ -26,11 +28,15 @@ class _MessageItemState extends State<MessageItem> {
   }
 
   // 跳转到详情页
-  void jumpCommentDetailsPage() {
-    Navigator.of(context).pushNamed(
-      'commentDetails',
-      arguments: widget.content,
-    );
+  void showCommentPage() {
+    print('评论');
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return CommentList(
+            topicModel: widget.content,
+          );
+        });
   }
 
   // 点赞
@@ -46,7 +52,8 @@ class _MessageItemState extends State<MessageItem> {
       }
       var result = await support(
         userid: userModel.userid,
-        topicid: widget.content.topicid,
+        targetId: widget.content.topicid,
+        type: 1,
       );
       if (result['noerr'] == 0) {
         topicProvider.updateSupport(
@@ -107,23 +114,20 @@ class _MessageItemState extends State<MessageItem> {
               )
             ],
           ),
-          GestureDetector(
-            onTap: jumpCommentDetailsPage,
-            child: Container(
-              width: screenWidth,
-              margin: EdgeInsets.only(left: 40, top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    widget.content.topicContent.text,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+          Container(
+            width: screenWidth,
+            margin: EdgeInsets.only(left: 40, top: 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  widget.content.topicContent.text,
+                  style: TextStyle(
+                    fontSize: 16,
                   ),
-                  imageLayout(screenWidth)
-                ],
-              ),
+                ),
+                imageLayout(screenWidth)
+              ],
             ),
           ),
           tagLayout(),
@@ -205,7 +209,7 @@ class _MessageItemState extends State<MessageItem> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: jumpCommentDetailsPage,
+                onTap: showCommentPage,
                 child: Icon(
                   Icons.chat,
                   size: 20,

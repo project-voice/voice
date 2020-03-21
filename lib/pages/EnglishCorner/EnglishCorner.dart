@@ -33,28 +33,33 @@ class _EnglishCornerState extends State<EnglishCorner>
 
   Future<void> fetchRequestAll(count) async {
     try {
-      UserModel userModel =
-          Provider.of<UserProvider>(context, listen: false).userInfo;
-      TopicProvider topicProvider =
-          Provider.of<TopicProvider>(context, listen: false);
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      TopicProvider topicProvider = Provider.of<TopicProvider>(
+        context,
+        listen: false,
+      );
       var result = await getTopicListAll(
         userid: userModel.userid,
         count: count,
       );
       if (result['noerr'] == 0) {
         topicProvider.initTopicList(result['data']);
+        setState(() {
+          isRequest = true;
+          _tabController = TabController(
+              length: result['data']['topic_title'].length, vsync: this);
+        });
+      } else {
+        Toast.show(
+          result['message'],
+          context,
+          duration: Toast.LENGTH_SHORT,
+          gravity: Toast.CENTER,
+        );
       }
-      setState(() {
-        isRequest = true;
-        _tabController = TabController(
-            length: result['data']['topic_title'].length, vsync: this);
-      });
-      Toast.show(
-        result['message'],
-        context,
-        duration: Toast.LENGTH_SHORT,
-        gravity: Toast.CENTER,
-      );
     } catch (err) {
       print(err);
     }

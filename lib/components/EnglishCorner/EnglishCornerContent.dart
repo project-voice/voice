@@ -64,7 +64,6 @@ class _EnglishCornerContentState extends State<EnglishCornerContent> {
       if (result['noerr'] == 0) {
         topicProvider.addTopicList(tab, result['data']);
       }
-      print(result['message']);
     } catch (err) {
       print(err);
     }
