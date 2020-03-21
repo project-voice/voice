@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:voice/pages/FluentSpeak/QuestionDetails.dart';
 import 'package:voice/pages/PersonalCenter/FollowList.dart';
 import 'package:voice/pages/PersonalCenter/OpinionFeedback.dart';
 import 'package:voice/pages/PersonalCenter/PersonalPage.dart';
@@ -31,4 +32,6 @@ Map routes = <String, WidgetBuilder>{
   'releaseList': (context) => PersonalPage(),
   'setup': (context) => Setup(),
   'systemMessage': (context) => SystemMessage(),
+  // 流利说
+  'questionDetails': (context) => QuestionDetails()
 };
