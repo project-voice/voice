@@ -58,8 +58,12 @@ flutter:
   assets:
     - assets/images/person-head.jpeg
     - assets/images/release-topic.png
-    - assets/images/release-video.jpg
+    - assets/images/release-video.png
     - assets/images/complete.png
+    - assets/images/rank.png
+    - assets/images/0.png
+    - assets/images/1.png
+    - assets/images/2.png
 
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

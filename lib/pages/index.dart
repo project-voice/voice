@@ -48,10 +48,8 @@ class _IndexPageState extends State<IndexPage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(color: Colors.grey[400], blurRadius: 4.0)
-                        ]),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
                     child: ClipOval(
                       child: Image.asset(release['iconUrl'],
                           width: 50, height: 50),

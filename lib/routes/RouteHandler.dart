@@ -3,6 +3,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:voice/pages/EnglishCorner/ReleaseTopic.dart';
 import 'package:voice/pages/FluentSpeak/QuestionDetails.dart';
+import 'package:voice/pages/FluentSpeak/RankList.dart';
 import 'package:voice/pages/Home/ReleaseVideo.dart';
 import 'package:voice/pages/Login/EmailCheck.dart';
 import 'package:voice/pages/Login/Login.dart';
@@ -98,5 +99,11 @@ Handler questionDetailsHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List> params) {
     int stageNum = int.parse(params['stageNum'][0]);
     return QuestionDetails(stageNum: stageNum);
+  },
+);
+// 积分榜单
+Handler rankHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List> params) {
+    return RankList();
   },
 );

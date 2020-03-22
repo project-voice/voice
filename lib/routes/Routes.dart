@@ -30,7 +30,9 @@ class Routes {
   static String messagePage = '/messagePage';
   // 流利说相关
   // 答题
-  static String questionDetalsPage = 'questionDetalsPage';
+  static String questionDetalsPage = '/questionDetalsPage';
+  // 积分榜单
+  static String rankPage = '/rankPage';
   static void configureRoutes(Router router) {
     router.notFoundHandler = Handler(
       handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -69,5 +71,7 @@ class Routes {
     // 流利说相关
     // 答题
     router.define(questionDetalsPage, handler: questionDetailsHandler);
+    // 积分榜单
+    router.define(rankPage, handler: rankHandler);
   }
 }

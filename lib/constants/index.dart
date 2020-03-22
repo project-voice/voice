@@ -37,7 +37,7 @@ List personalCenterPagesRoute = [
 List releasePages = [
   {
     'text': '发布视频',
-    'iconUrl': 'assets/images/release-video.jpg',
+    'iconUrl': 'assets/images/release-video.png',
     'page': Routes.releaseVideoPage,
   },
   {
