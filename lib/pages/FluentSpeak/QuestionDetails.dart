@@ -45,7 +45,6 @@ class _QuestionDetailsStage extends State<QuestionDetails> {
           questionList = tempList;
         });
       }
-      print(result);
     } catch (err) {
       print(err);
     }
