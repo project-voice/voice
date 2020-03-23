@@ -84,6 +84,25 @@ class _VideoItemState extends State<VideoItem> {
                 ),
               ),
             ),
+          ),
+          Positioned(
+            bottom: 20,
+            left: 0,
+            child: Container(
+              width: screenWidth / 3 - 16,
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                widget.videoModel.videoDescription,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
           )
         ],
       ),
