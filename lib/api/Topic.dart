@@ -61,3 +61,27 @@ Future<dynamic> getNextTopicList({
   });
   return response.data;
 }
+
+Future<dynamic> getTopicToSelf({
+  int userId,
+}) async {
+  Response response = await _dio.get(
+    '$BASE_URL/topic/topic-self-list',
+    queryParameters: {
+      'user_id': userId,
+    },
+  );
+  return response.data;
+}
+
+Future<dynamic> deleteTopic({
+  int topicId,
+}) async {
+  Response response = await _dio.get(
+    '$BASE_URL/topic/delete',
+    queryParameters: {
+      'topic_id': topicId,
+    },
+  );
+  return response.data;
+}

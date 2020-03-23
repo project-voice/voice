@@ -2,11 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:voice/api/Stage.dart';
+import 'package:voice/api/Topic.dart';
+import 'package:voice/api/Video.dart';
 import 'package:voice/components/PersonalCenter/PersonalPage/BaseInfo.dart';
 import 'package:voice/components/PersonalCenter/PersonalPage/SpeakInfo.dart';
 import 'package:voice/components/PersonalCenter/PersonalPage/TopicAndVideoInfo.dart';
 import 'package:voice/model/StageModel.dart';
+import 'package:voice/model/TopicModel.dart';
 import 'package:voice/model/UserModel.dart';
+import 'package:voice/model/VideoModel.dart';
 import 'package:voice/provider/UserProvider.dart';
 
 class PersonalPage extends StatefulWidget {
@@ -16,10 +20,65 @@ class PersonalPage extends StatefulWidget {
 
 class _PersonalPageState extends State<PersonalPage> {
   List<StageModel> stageList = [];
+  List<VideoModel> videoList = [];
+  List<TopicModel> topicList = [];
   @override
   void initState() {
     super.initState();
     getStageRequest();
+    getVideoRequest();
+    getTopicRequest();
+  }
+
+  Future<void> getVideoRequest() async {
+    try {
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      var result = await getVideoToSelf(
+        userId: userModel.userid,
+      );
+      if (result['noerr'] == 0) {
+        List<VideoModel> tempList = result['data']
+            .map((item) {
+              return VideoModel.fromJSON(item);
+            })
+            .cast<VideoModel>()
+            .toList();
+        setState(() {
+          videoList = tempList;
+        });
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  Future<void> getTopicRequest() async {
+    try {
+      UserModel userModel = Provider.of<UserProvider>(
+        context,
+        listen: false,
+      ).userInfo;
+      var result = await getTopicToSelf(
+        userId: userModel.userid,
+      );
+      print(result);
+      if (result['noerr'] == 0) {
+        List<TopicModel> tempList = result['data']
+            .map((item) {
+              return TopicModel.fromJson(item);
+            })
+            .cast<TopicModel>()
+            .toList();
+        setState(() {
+          topicList = tempList;
+        });
+      }
+    } catch (err) {
+      print(err);
+    }
   }
 
   Future<void> getStageRequest() async {
@@ -92,7 +151,12 @@ class _PersonalPageState extends State<PersonalPage> {
                         color: Colors.grey[100],
                       ),
                       SpeakInfo(stageList: stageList),
-                      TopicAndVideoInfo(),
+                      TopicAndVideoInfo(
+                        topicList: topicList,
+                        videoList: videoList,
+                        topicRefresh: getTopicRequest,
+                        videoRefresh: getVideoRequest,
+                      ),
                     ],
                   ),
                 ),

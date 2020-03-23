@@ -3,6 +3,7 @@ class VideoModel extends Object {
   int userid;
   String videoUrl;
   String videoDescription;
+  String videoBanner;
   int videoShare;
   String createTime;
   String userName;
@@ -15,6 +16,7 @@ class VideoModel extends Object {
     this.userid,
     this.videoUrl,
     this.videoDescription,
+    this.videoBanner,
     this.videoShare,
     this.createTime,
     this.userName,
@@ -29,6 +31,7 @@ class VideoModel extends Object {
       userid: json['user_id'] as int,
       videoUrl: json['video_url'] as String,
       videoDescription: json['video_description'] as String,
+      videoBanner: json['video_banner'] as String,
       videoShare: json['video_share'] as int,
       createTime: json['create_time'] as String,
       userName: json['user_name'] as String,
@@ -44,6 +47,7 @@ class VideoModel extends Object {
       'user_id': userid,
       'video_url': videoUrl,
       'video_description': videoDescription,
+      'video_banner': videoBanner,
       'video_share': videoShare,
       'create_time': createTime,
       'user_name': userName,

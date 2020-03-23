@@ -16,7 +16,8 @@ import 'package:voice/routes/Routes.dart';
 
 class CommentList extends StatefulWidget {
   final TopicModel topicModel;
-  CommentList({Key key, this.topicModel}) : super(key: key);
+  final String type;
+  CommentList({Key key, this.topicModel, this.type = ''}) : super(key: key);
   _CommentListState createState() => _CommentListState();
 }
 
@@ -93,11 +94,13 @@ class _CommentListState extends State<CommentList> {
         // 重新获取评论列表
         featchRequest(page++, count, 'refresh');
         // 更新videoProvider中的数据
-        topicProvider.updateComment(
-          widget.topicModel.topicType,
-          widget.topicModel.topicid,
-          widget.topicModel.comment + 1,
-        );
+        if (widget.type.isEmpty) {
+          topicProvider.updateComment(
+            widget.topicModel.topicType,
+            widget.topicModel.topicid,
+            widget.topicModel.comment + 1,
+          );
+        }
       }
       _commentController.clear();
       FocusScope.of(context).requestFocus(FocusNode());

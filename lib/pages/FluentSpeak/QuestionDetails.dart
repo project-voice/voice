@@ -137,21 +137,23 @@ class _QuestionDetailsStage extends State<QuestionDetails> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: CachedNetworkImage(
-                              width: screenWidth,
-                              fit: BoxFit.cover,
-                              imageUrl: questionList[index].questionImage,
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          ),
-                        ),
+                        questionList[index].questionImage.isNotEmpty
+                            ? Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: CachedNetworkImage(
+                                    width: screenWidth,
+                                    fit: BoxFit.cover,
+                                    imageUrl: questionList[index].questionImage,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                              )
+                            : Container(),
                         Container(
                           width: screenWidth,
                           margin: EdgeInsets.only(top: 12),

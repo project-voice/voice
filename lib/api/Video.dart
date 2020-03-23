@@ -51,3 +51,27 @@ Future<dynamic> releaseVideo({
   });
   return response.data;
 }
+
+Future<dynamic> getVideoToSelf({
+  int userId,
+}) async {
+  Response response = await _dio.get(
+    '$BASE_URL/video/video-list-self',
+    queryParameters: {
+      'user_id': userId,
+    },
+  );
+  return response.data;
+}
+
+Future<dynamic> deleteVideo({
+  int videoId,
+}) async {
+  Response response = await _dio.get(
+    '$BASE_URL/video/delete',
+    queryParameters: {
+      'video_id': videoId,
+    },
+  );
+  return response.data;
+}

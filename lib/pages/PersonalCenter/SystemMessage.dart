@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
-import 'package:voice/api/Message.dart';
 import 'package:voice/components/PersonalCenter/MessageItem.dart';
 import 'package:voice/model/MessageModel.dart';
-import 'package:voice/model/UserModel.dart';
-import 'package:voice/provider/UserProvider.dart';
 
 class SystemMessage extends StatefulWidget {
   _SystemMessageState createState() => _SystemMessageState();
